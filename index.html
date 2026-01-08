@@ -3,139 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>40x20 Fútbol Sala</title>
+<title>40x20 Futsal</title>
 
 <style>
-* {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-}
-
 body {
-font-family: 'Segoe UI', Arial, sans-serif;
-background: #0b1c2d;
-color: #ffffff;
-line-height: 1.6;
+margin: 0;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+background: #f2f4f7;
+color: #111;
 }
 
 /* ===== HEADER ===== */
-header {
-background: linear-gradient(180deg, #081a2f, #051428);
+.header {
+background: linear-gradient(180deg, #071b33, #0b2a4d);
+color: white;
 text-align: center;
-padding: 30px 15px;
-border-bottom: 3px solid #e63946;
+padding: 30px 15px 40px;
 }
 
-header img {
-width: 200px;
-max-width: 90%;
-margin-bottom: 15px;
+.header img {
+width: 140px;
+margin-bottom: 10px;
 }
 
-header h1 {
-font-size: 30px;
-letter-spacing: 2px;
+.header h1 {
+font-size: 26px;
+margin-bottom: 6px;
 }
 
-/* ===== NAV ===== */
-nav {
-background: #102d52;
+.header p {
+font-style: italic;
+opacity: 0.85;
+}
+
+/* ===== BOTONES ===== */
+.menu {
+padding: 20px 15px;
+}
+
+.card {
+background: white;
+border-radius: 16px;
+padding: 18px;
+margin-bottom: 14px;
 display: flex;
-flex-wrap: wrap;
-justify-content: center;
-gap: 10px;
-padding: 12px;
-}
-
-nav a {
-color: #ffffff;
-text-decoration: none;
+align-items: center;
+gap: 14px;
+font-size: 18px;
 font-weight: 600;
-padding: 8px 14px;
-border-radius: 4px;
-transition: background 0.3s;
+box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+cursor: pointer;
 }
 
-nav a:hover {
-background: #1c4a80;
+.card span {
+font-size: 24px;
 }
 
-/* ===== MAIN ===== */
-main {
-max-width: 1100px;
-margin: auto;
-padding: 25px 15px;
+.card:hover {
+transform: scale(1.02);
 }
 
+/* ===== SECCIONES ===== */
 section {
-margin-bottom: 50px;
+padding: 25px 18px;
 }
 
 section h2 {
-color: #e63946;
-margin-bottom: 15px;
-border-left: 5px solid #e63946;
-padding-left: 10px;
-}
-
-/* ===== LISTAS ===== */
-ul {
-margin-left: 20px;
-}
-
-ul li {
-margin-bottom: 8px;
+color: #0b2a4d;
+margin-bottom: 12px;
 }
 
 /* ===== TABLAS ===== */
 table {
 width: 100%;
 border-collapse: collapse;
-margin-top: 10px;
-background: #081a2f;
+background: white;
+border-radius: 12px;
+overflow: hidden;
 }
 
 th, td {
-border: 1px solid #1c4a80;
 padding: 10px;
 text-align: center;
+border-bottom: 1px solid #ddd;
 }
 
 th {
-background: #102d52;
-}
-
-/* ===== CONTACTO ===== */
-.contacto {
-display: flex;
-flex-direction: column;
-gap: 10px;
-}
-
-.contacto a {
-display: inline-block;
-background: #1c4a80;
-padding: 10px;
-border-radius: 5px;
+background: #0b2a4d;
 color: white;
-text-decoration: none;
-max-width: 260px;
-text-align: center;
-font-weight: bold;
-}
-
-.contacto a:hover {
-background: #e63946;
 }
 
 /* ===== FOOTER ===== */
 footer {
-background: #051428;
 text-align: center;
 padding: 15px;
 font-size: 14px;
-border-top: 2px solid #1c4a80;
+color: #666;
 }
 </style>
 </head>
@@ -143,25 +106,24 @@ border-top: 2px solid #1c4a80;
 <body>
 
 <!-- ===== HEADER ===== -->
-<header>
-<!-- LOGO -->
-<img src="IMG_3936.png" alt="Logo 40x20 Fútbol Sala">
-<h1>40x20 Fútbol Sala</h1>
-</header>
+<div class="header">
+<img src="IMG_3936.png" alt="40x20 Futsal">
+<h1>40x20 Futsal</h1>
+<p>FUTSAL: la pasión que nos une</p>
+</div>
 
 <!-- ===== MENU ===== -->
-<nav>
-<a href="#torneos">Torneos</a>
-<a href="#tabla">Tabla</a>
-<a href="#fixture">Fixture</a>
-<a href="#goleadores">Goleadores</a>
-<a href="#sanciones">Sanciones</a>
-<a href="#contacto">Contacto</a>
-</nav>
+<div class="menu">
+<div class="card" onclick="location.href='#torneos'"><span>🏆</span> Torneos</div>
+<div class="card" onclick="location.href='#tabla'"><span>📊</span> Tabla</div>
+<div class="card" onclick="location.href='#fixture'"><span>📅</span> Fixture</div>
+<div class="card" onclick="location.href='#goleadores'"><span>⚽</span> Goleadores</div>
+<div class="card" onclick="location.href='#sanciones'"><span>🚫</span> Sanciones</div>
+<div class="card" onclick="location.href='https://www.instagram.com/'"><span>📸</span> Instagram</div>
+<div class="card" onclick="location.href='https://wa.me/5491111111111'"><span>📞</span> Contacto</div>
+</div>
 
 <!-- ===== CONTENIDO ===== -->
-<main>
-
 <section id="torneos">
 <h2>Torneos</h2>
 <ul>
@@ -197,7 +159,6 @@ border-top: 2px solid #1c4a80;
 <ul>
 <li>Equipo A vs Equipo B</li>
 <li>Equipo C vs Equipo D</li>
-<li>Equipo E vs Equipo F</li>
 </ul>
 </section>
 
@@ -206,7 +167,6 @@ border-top: 2px solid #1c4a80;
 <ul>
 <li>Jugador 1 – 8 goles</li>
 <li>Jugador 2 – 6 goles</li>
-<li>Jugador 3 – 5 goles</li>
 </ul>
 </section>
 
@@ -214,24 +174,11 @@ border-top: 2px solid #1c4a80;
 <h2>Sanciones</h2>
 <ul>
 <li>Jugador X – 1 fecha</li>
-<li>Jugador Y – 2 fechas</li>
 </ul>
 </section>
 
-<section id="contacto">
-<h2>Contacto</h2>
-<div class="contacto">
-<a href="https://www.instagram.com/" target="_blank">📸 Instagram</a>
-<a href="https://wa.me/5491111111111" target="_blank">📲 WhatsApp</a>
-<a href="mailto:contacto@40x20.com">✉️ Email</a>
-</div>
-</section>
-
-</main>
-
-<!-- ===== FOOTER ===== -->
 <footer>
-© 2026 – 40x20 Fútbol Sala
+© 2026 – 40x20 Futsal
 </footer>
 
 </body>
