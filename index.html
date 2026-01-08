@@ -5,14 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>40×20 Futsal - Posadas</title>
 <style>
-/* ESTILOS GENERALES */
 body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f3f6; color: #333; }
 .app { max-width: 480px; margin: auto; min-height: 100vh; display: flex; flex-direction: column; }
 
-/* HEADER */
-header { background: linear-gradient(135deg, #0d47a1, #1565c0); color: white; text-align: center; padding: 35px 20px; }
-header h1 { margin: 0; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; }
-.slogan { display: block; font-size: 14px; font-style: italic; opacity: 0.9; margin-top: 5px; }
+/* HEADER CON LOGO Y SLOGAN (SIN TITULO) */
+header {
+background: linear-gradient(135deg, #0d47a1, #1565c0);
+color: white;
+text-align: center;
+padding: 40px 20px;
+}
+
+.logo-principal {
+width: 180px;
+height: auto;
+display: block;
+margin: 0 auto;
+filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3));
+}
+
+.slogan {
+display: block;
+font-size: 15px;
+font-style: italic;
+opacity: 0.95;
+margin-top: 15px;
+font-weight: 300;
+}
 
 /* BOTONES Y MENÚS */
 .menu-container { padding: 20px 16px; flex-grow: 1; }
@@ -43,16 +62,15 @@ td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
 .list { list-style: none; padding: 0; margin: 0; }
 .list li { padding: 14px 0; border-bottom: 1px solid #eee; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
 
-/* ESPECIALES */
+/* BOTÓN WHATSAPP */
 .btn-wa { background: #25d366; color: white; justify-content: center; }
-.news-item { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 12px; }
 </style>
 </head>
 <body>
 
 <div class="app">
 <header>
-<h1>40×20 Futsal</h1>
+<img src="IMG_3936.png" alt="40x20 Futsal" class="logo-principal">
 <span class="slogan">FUTSAL: la pasión que nos une</span>
 </header>
 
@@ -94,10 +112,10 @@ td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
 <div id="noticias-screen" class="content-section">
 <div class="card">
 <h2>Noticias</h2>
-<div class="news-item">
+<div style="border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;">
 <small style="color:#999">8 de Enero, 2026</small><br>
-<strong>¡Inauguramos nuestra Web App!</strong>
-<p style="font-size:14px">Seguí todas las ligas de Posadas en tiempo real.</p>
+<strong>¡Nueva Web Lanzada!</strong>
+<p style="font-size:14px; color:#555">Seguí todo el futsal de Posadas acá.</p>
 </div>
 </div>
 <button class="btn btn-back" onclick="showScreen('main-menu')">← Volver</button>
@@ -106,11 +124,10 @@ td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
 <div id="contacto-screen" class="content-section">
 <div class="card">
 <h2>Contacto</h2>
-<p>Consultas, publicidad o inscripción de equipos:</p>
+<p>Consultas y publicidad:</p>
 <a href="https://wa.me/543764532126" target="_blank" class="btn btn-wa">
 <span>💬</span> WhatsApp Directo
 </a>
-<p style="text-align: center; font-size: 14px; color: #666; margin-top: 20px;">Posadas, Misiones</p>
 </div>
 <button class="btn btn-back" onclick="showScreen('main-menu')">← Volver</button>
 </div>
@@ -136,27 +153,28 @@ const container = document.getElementById('data-content');
 const titulo = document.getElementById('data-titulo');
 showScreen('data-view');
 
+// DATOS DE EJEMPLO (Se pueden editar aquí)
 if(tipo === 'tabla') {
 titulo.innerText = "Tabla - " + torneoActual;
-container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th><th>GF</th></tr>
-<tr><td>1</td><td>Equipo A</td><td>15</td><td>22</td></tr>
-<tr><td>2</td><td>Equipo B</td><td>12</td><td>18</td></tr></table>`;
+container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr>
+<tr><td>1</td><td>Equipo A</td><td>15</td></tr>
+<tr><td>2</td><td>Equipo B</td><td>12</td></tr></table>`;
 }
 else if(tipo === 'goleadores') {
 titulo.innerText = "Goleadores " + torneoActual;
-container.innerHTML = `<ul class="list"><li>Jugador 1 (Equipo A) <span>12</span></li><li>Jugador 2 (Equipo B) <span>10</span></li></ul>`;
+container.innerHTML = `<ul class="list"><li>Jugador 1 <span>12</span></li></ul>`;
 }
 else if(tipo === 'valla') {
 titulo.innerText = "Valla menos vencida";
-container.innerHTML = `<ul class="list"><li>Arquero X (Equipo A) <span>8 G.R.</span></li></ul>`;
+container.innerHTML = `<ul class="list"><li>Arquero X <span>8 G.R.</span></li></ul>`;
 }
 else if(tipo === 'sanciones') {
 titulo.innerText = "Sanciones";
-container.innerHTML = `<ul class="list"><li>Jugador Y (Equipo C) <span>2 Fechas</span></li></ul>`;
+container.innerHTML = `<ul class="list"><li>Jugador Y <span>1 Fecha</span></li></ul>`;
 }
 else if(tipo === 'fixture') {
-titulo.innerText = "Fixture y Resultados";
-container.innerHTML = `<ul class="list"><li>Equipo A 2 - 1 Equipo B <span>Final</span></li><li>Equipo C vs Equipo D <span>Lunes 21hs</span></li></ul>`;
+titulo.innerText = "Fixture / Resultados";
+container.innerHTML = `<ul class="list"><li>Equipo A 2 - 0 Equipo B <span>Final</span></li></ul>`;
 }
 }
 </script>
