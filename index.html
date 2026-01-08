@@ -5,177 +5,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>40×20 Futsal - Posadas</title>
 <style>
-body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f3f6; color: #333; }
-.app { max-width: 480px; margin: auto; min-height: 100vh; display: flex; flex-direction: column; }
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f3f6; color: #333; overflow-x: hidden; }
+.app { max-width: 480px; margin: auto; min-height: 100vh; background: #f1f3f6; }
 
-/* HEADER CON LOGO Y SLOGAN (SIN TITULO) */
+/* HEADER */
 header {
 background: linear-gradient(135deg, #0d47a1, #1565c0);
 color: white;
 text-align: center;
 padding: 40px 20px;
 }
-
 .logo-principal {
-width: 180px;
+width: 200px;
 height: auto;
 display: block;
 margin: 0 auto;
 filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3));
 }
-
 .slogan {
 display: block;
-font-size: 15px;
+font-size: 16px;
 font-style: italic;
 opacity: 0.95;
-margin-top: 15px;
-font-weight: 300;
+margin-top: 20px;
 }
 
-/* BOTONES Y MENÚS */
-.menu-container { padding: 20px 16px; flex-grow: 1; }
+/* CONTENEDORES DE PANTALLA */
+.screen { display: none; padding: 16px; animation: fadeIn 0.3s ease; }
+.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* BOTONES */
 .btn {
 display: flex; align-items: center; width: 100%; padding: 18px; margin-bottom: 15px;
 background: white; border: none; border-radius: 16px;
 text-align: left; font-size: 16px; font-weight: bold; cursor: pointer;
 box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #0d47a1;
-transition: all 0.2s; text-decoration: none; box-sizing: border-box;
+box-sizing: border-box;
 }
 .btn span { margin-right: 15px; font-size: 22px; }
-.btn:active { transform: scale(0.97); background: #f8f9fa; }
+.btn:active { background: #e3f2fd; transform: scale(0.98); }
+.btn-back { background: #455a64; color: white; justify-content: center; margin-top: 10px; }
 
-.btn-back { background: #455a64; color: white; margin-top: 20px; justify-content: center; }
-
-/* SECCIONES INTERACTIVAS */
-.content-section { display: none; padding: 16px; animation: slideUp 0.3s ease-out; }
-.active { display: block; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+/* TARJETAS DE DATOS */
 .card { background: white; padding: 20px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 15px; }
 h2 { margin-top: 0; color: #0d47a1; font-size: 22px; border-bottom: 2px solid #f1f3f6; padding-bottom: 10px; }
 
-/* TABLAS Y LISTAS */
 table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
 th { text-align: left; background: #e3f2fd; padding: 10px; color: #0d47a1; }
 td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
-.list { list-style: none; padding: 0; margin: 0; }
-.list li { padding: 14px 0; border-bottom: 1px solid #eee; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
 
-/* BOTÓN WHATSAPP */
-.btn-wa { background: #25d366; color: white; justify-content: center; }
+.list { list-style: none; padding: 0; }
+.list li { padding: 12px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
 </style>
 </head>
 <body>
 
 <div class="app">
-<header>
-<img src="IMG_3936.png" alt="40x20 Futsal" class="logo-principal">
+<header id="main-header">
+<img src="40x20.jpg" alt="40x20 Futsal" class="logo-principal">
 <span class="slogan">FUTSAL: la pasión que nos une</span>
 </header>
 
-<div id="main-menu" class="menu-container active">
-<button class="btn" onclick="showScreen('torneos-menu')"><span>🏆</span> TORNEOS</button>
-<button class="btn" onclick="showScreen('noticias-screen')"><span>📰</span> NOTICIAS</button>
-<a href="https://www.instagram.com/_40x20futsal?igsh=MTRlM3hiczV1ZThsdA%3D%3D&utm_source=qr" target="_blank" class="btn">
+<div id="scr-main" class="screen active">
+<button class="btn" onclick="nav('scr-torneos')"><span>🏆</span> TORNEOS</button>
+<button class="btn" onclick="nav('scr-noticias')"><span>📰</span> NOTICIAS</button>
+<a href="https://www.instagram.com/_40x20futsal?igsh=MTRlM3hiczV1ZThsdA%3D%3D&utm_source=qr" target="_blank" class="btn" style="text-decoration:none">
 <span>📸</span> INSTAGRAM
 </a>
-<button class="btn" onclick="showScreen('contacto-screen')"><span>📞</span> CONTACTO</button>
+<button class="btn" onclick="nav('scr-contacto')"><span>📞</span> CONTACTO</button>
 </div>
 
-<div id="torneos-menu" class="content-section">
+<div id="scr-torneos" class="screen">
 <h2>Seleccionar Liga</h2>
 <button class="btn" onclick="openTorneo('LPF')">LPF</button>
 <button class="btn" onclick="openTorneo('APOFUSA')">A.Po.Fu.Sa</button>
 <button class="btn" onclick="openTorneo('LAAMBA')">La AMBA</button>
-<button class="btn btn-back" onclick="showScreen('main-menu')">← Volver al inicio</button>
+<button class="btn btn-back" onclick="nav('scr-main')">Volver al Inicio</button>
 </div>
 
-<div id="sub-menu-torneo" class="content-section">
-<h2 id="torneo-titulo">Torneo</h2>
-<button class="btn" onclick="showData('tabla')">📊 Tabla de Posiciones</button>
-<button class="btn" onclick="showData('goleadores')">⚽ Goleadores</button>
-<button class="btn" onclick="showData('valla')">🧤 Valla menos vencida</button>
-<button class="btn" onclick="showData('sanciones')">🚫 Sanciones</button>
-<button class="btn" onclick="showData('fixture')">📅 Fixture y Resultados</button>
-<button class="btn btn-back" onclick="showScreen('torneos-menu')">← Volver a Ligas</button>
+<div id="scr-opciones" class="screen">
+<h2 id="titulo-torneo">Torneo</h2>
+<button class="btn" onclick="showData('Tabla')">📊 Tabla de Posiciones</button>
+<button class="btn" onclick="showData('Goleadores')">⚽ Goleadores</button>
+<button class="btn" onclick="showData('Valla')">🧤 Valla menos vencida</button>
+<button class="btn" onclick="showData('Sanciones')">🚫 Sanciones</button>
+<button class="btn" onclick="showData('Fixture')">📅 Fixture y Resultados</button>
+<button class="btn btn-back" onclick="nav('scr-torneos')">Volver a Ligas</button>
 </div>
 
-<div id="data-view" class="content-section">
+<div id="scr-data" class="screen">
 <div class="card">
 <h2 id="data-titulo">Información</h2>
 <div id="data-content"></div>
 </div>
-<button class="btn btn-back" onclick="showScreen('sub-menu-torneo')">← Volver</button>
+<button class="btn btn-back" onclick="nav('scr-opciones')">Volver</button>
 </div>
 
-<div id="noticias-screen" class="content-section">
+<div id="scr-noticias" class="screen">
 <div class="card">
 <h2>Noticias</h2>
-<div style="border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;">
-<small style="color:#999">8 de Enero, 2026</small><br>
-<strong>¡Nueva Web Lanzada!</strong>
-<p style="font-size:14px; color:#555">Seguí todo el futsal de Posadas acá.</p>
+<p>Actualizaciones pronto...</p>
 </div>
-</div>
-<button class="btn btn-back" onclick="showScreen('main-menu')">← Volver</button>
+<button class="btn btn-back" onclick="nav('scr-main')">Volver</button>
 </div>
 
-<div id="contacto-screen" class="content-section">
+<div id="scr-contacto" class="screen">
 <div class="card">
 <h2>Contacto</h2>
-<p>Consultas y publicidad:</p>
-<a href="https://wa.me/543764532126" target="_blank" class="btn btn-wa">
-<span>💬</span> WhatsApp Directo
+<a href="https://wa.me/543764532126" target="_blank" class="btn" style="background:#25d366; color:white; justify-content:center; text-decoration:none">
+WhatsApp Directo
 </a>
 </div>
-<button class="btn btn-back" onclick="showScreen('main-menu')">← Volver</button>
+<button class="btn btn-back" onclick="nav('scr-main')">Volver</button>
 </div>
 </div>
 
 <script>
-let torneoActual = "";
+let torneoSeleccionado = "";
 
-function showScreen(id) {
-document.querySelectorAll('.content-section, .menu-container').forEach(s => s.classList.remove('active'));
+// Función principal de navegación
+function nav(id) {
+// Ocultar todas las pantallas
+document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+// Mostrar la elegida
 document.getElementById(id).classList.add('active');
-window.scrollTo(0,0);
+// Forzar que la página suba al inicio
+window.scrollTo(0, 0);
 }
 
 function openTorneo(nombre) {
-torneoActual = nombre;
-document.getElementById('torneo-titulo').innerText = "Opciones " + nombre;
-showScreen('sub-menu-torneo');
+torneoSeleccionado = nombre;
+document.getElementById('titulo-torneo').innerText = "Opciones " + nombre;
+nav('scr-opciones');
 }
 
 function showData(tipo) {
 const container = document.getElementById('data-content');
-const titulo = document.getElementById('data-titulo');
-showScreen('data-view');
+document.getElementById('data-titulo').innerText = tipo + " - " + torneoSeleccionado;
 
-// DATOS DE EJEMPLO (Se pueden editar aquí)
-if(tipo === 'tabla') {
-titulo.innerText = "Tabla - " + torneoActual;
-container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr>
-<tr><td>1</td><td>Equipo A</td><td>15</td></tr>
-<tr><td>2</td><td>Equipo B</td><td>12</td></tr></table>`;
+// Ejemplo de carga de datos
+if(tipo === 'Tabla') {
+container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr><tr><td>1</td><td>Ejemplo FC</td><td>15</td></tr></table>`;
+} else {
+container.innerHTML = `<ul class="list"><li>Cargando datos de ${tipo}...</li></ul>`;
 }
-else if(tipo === 'goleadores') {
-titulo.innerText = "Goleadores " + torneoActual;
-container.innerHTML = `<ul class="list"><li>Jugador 1 <span>12</span></li></ul>`;
-}
-else if(tipo === 'valla') {
-titulo.innerText = "Valla menos vencida";
-container.innerHTML = `<ul class="list"><li>Arquero X <span>8 G.R.</span></li></ul>`;
-}
-else if(tipo === 'sanciones') {
-titulo.innerText = "Sanciones";
-container.innerHTML = `<ul class="list"><li>Jugador Y <span>1 Fecha</span></li></ul>`;
-}
-else if(tipo === 'fixture') {
-titulo.innerText = "Fixture / Resultados";
-container.innerHTML = `<ul class="list"><li>Equipo A 2 - 0 Equipo B <span>Final</span></li></ul>`;
-}
+
+nav('scr-data');
 }
 </script>
 
