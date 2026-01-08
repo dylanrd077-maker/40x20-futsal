@@ -8,178 +8,182 @@
 <style>
 body {
 margin: 0;
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+font-family: Arial, Helvetica, sans-serif;
 background: #f2f4f7;
-color: #111;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 .header {
-background: linear-gradient(180deg, #071b33, #0b2a4d);
+background: #071b33;
 color: white;
 text-align: center;
-padding: 30px 15px 40px;
+padding: 25px 15px;
 }
 
 .header img {
-width: 140px;
-margin-bottom: 10px;
+width: 130px;
 }
 
 .header h1 {
-font-size: 26px;
-margin-bottom: 6px;
+margin: 10px 0 5px;
 }
 
 .header p {
+opacity: 0.8;
 font-style: italic;
-opacity: 0.85;
 }
 
-/* ===== BOTONES ===== */
-.menu {
-padding: 20px 15px;
+/* CONTENEDOR */
+.container {
+padding: 20px;
 }
 
-.card {
+/* BOTONES */
+.btn {
 background: white;
-border-radius: 16px;
-padding: 18px;
-margin-bottom: 14px;
-display: flex;
-align-items: center;
-gap: 14px;
+padding: 16px;
+margin-bottom: 12px;
+border-radius: 14px;
 font-size: 18px;
-font-weight: 600;
-box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+font-weight: bold;
+box-shadow: 0 5px 12px rgba(0,0,0,0.1);
 cursor: pointer;
 }
 
-.card span {
-font-size: 24px;
+/* SUBMENU */
+.submenu {
+display: none;
+margin-top: 10px;
 }
 
-.card:hover {
-transform: scale(1.02);
+.submenu .btn {
+background: #e9eef4;
+font-size: 16px;
 }
 
-/* ===== SECCIONES ===== */
-section {
-padding: 25px 18px;
+/* SECCIONES */
+.section {
+display: none;
+background: white;
+padding: 18px;
+border-radius: 14px;
+margin-top: 15px;
 }
 
-section h2 {
-color: #0b2a4d;
-margin-bottom: 12px;
+.section h2 {
+color: #071b33;
+margin-bottom: 10px;
 }
 
-/* ===== TABLAS ===== */
+/* TABLA */
 table {
 width: 100%;
 border-collapse: collapse;
-background: white;
-border-radius: 12px;
-overflow: hidden;
 }
 
 th, td {
-padding: 10px;
+padding: 8px;
+border-bottom: 1px solid #ccc;
 text-align: center;
-border-bottom: 1px solid #ddd;
 }
 
 th {
-background: #0b2a4d;
+background: #071b33;
 color: white;
 }
-
-/* ===== FOOTER ===== */
-footer {
-text-align: center;
-padding: 15px;
-font-size: 14px;
-color: #666;
-}
 </style>
+
+<script>
+function toggle(id) {
+document.querySelectorAll('.submenu').forEach(el => el.style.display = 'none');
+document.querySelectorAll('.section').forEach(el => el.style.display = 'none');
+document.getElementById(id).style.display = 'block';
+}
+
+function showSection(id) {
+document.querySelectorAll('.section').forEach(el => el.style.display = 'none');
+document.getElementById(id).style.display = 'block';
+}
+</script>
 </head>
 
 <body>
 
-<!-- ===== HEADER ===== -->
+<!-- HEADER -->
 <div class="header">
 <img src="IMG_3936.png" alt="40x20 Futsal">
 <h1>40x20 Futsal</h1>
-<p>FUTSAL: la pasión que nos une</p>
+<p>La pasión que nos une</p>
 </div>
 
-<!-- ===== MENU ===== -->
-<div class="menu">
-<div class="card" onclick="location.href='#torneos'"><span>🏆</span> Torneos</div>
-<div class="card" onclick="location.href='#tabla'"><span>📊</span> Tabla</div>
-<div class="card" onclick="location.href='#fixture'"><span>📅</span> Fixture</div>
-<div class="card" onclick="location.href='#goleadores'"><span>⚽</span> Goleadores</div>
-<div class="card" onclick="location.href='#sanciones'"><span>🚫</span> Sanciones</div>
-<div class="card" onclick="location.href='https://www.instagram.com/'"><span>📸</span> Instagram</div>
-<div class="card" onclick="location.href='https://wa.me/5491111111111'"><span>📞</span> Contacto</div>
+<div class="container">
+
+<!-- TORNEOS -->
+<div class="btn" onclick="toggle('ligas')">🏆 Torneos</div>
+
+<div id="ligas" class="submenu">
+<div class="btn" onclick="toggle('lpf')">LPF</div>
+<div class="btn" onclick="toggle('lamba')">La AMBA</div>
+<div class="btn" onclick="toggle('apofusa')">A.Po.Fu.Sa</div>
 </div>
 
-<!-- ===== CONTENIDO ===== -->
-<section id="torneos">
-<h2>Torneos</h2>
-<ul>
-<li>Apertura 2026</li>
-<li>Clausura 2026</li>
-<li>Copa 40x20</li>
-</ul>
-</section>
+<!-- SUBMENU LPF -->
+<div id="lpf" class="submenu">
+<div class="btn" onclick="showSection('tabla')">📊 Tabla</div>
+<div class="btn" onclick="showSection('fixture')">📅 Fixture</div>
+<div class="btn" onclick="showSection('resultados')">🏁 Resultados</div>
+<div class="btn" onclick="showSection('goleadores')">⚽ Goleadores</div>
+<div class="btn" onclick="showSection('valla')">🧤 Valla menos vencida</div>
+<div class="btn" onclick="showSection('sanciones')">🚫 Sanciones</div>
+</div>
 
-<section id="tabla">
-<h2>Tabla de Posiciones</h2>
+<!-- SECCIONES -->
+<div id="tabla" class="section">
+<h2>Tabla de posiciones</h2>
 <table>
-<tr>
-<th>Equipo</th>
-<th>PJ</th>
-<th>PTS</th>
-</tr>
-<tr>
-<td>Equipo A</td>
-<td>5</td>
-<td>12</td>
-</tr>
-<tr>
-<td>Equipo B</td>
-<td>5</td>
-<td>9</td>
-</tr>
+<tr><th>Equipo</th><th>PJ</th><th>PTS</th></tr>
+<tr><td>Equipo A</td><td>5</td><td>12</td></tr>
+<tr><td>Equipo B</td><td>5</td><td>9</td></tr>
 </table>
-</section>
+</div>
 
-<section id="fixture">
+<div id="fixture" class="section">
 <h2>Fixture</h2>
 <ul>
 <li>Equipo A vs Equipo B</li>
 <li>Equipo C vs Equipo D</li>
 </ul>
-</section>
+</div>
 
-<section id="goleadores">
+<div id="resultados" class="section">
+<h2>Resultados</h2>
+<ul>
+<li>Equipo A 3 - 1 Equipo B</li>
+</ul>
+</div>
+
+<div id="goleadores" class="section">
 <h2>Goleadores</h2>
 <ul>
 <li>Jugador 1 – 8 goles</li>
-<li>Jugador 2 – 6 goles</li>
 </ul>
-</section>
+</div>
 
-<section id="sanciones">
+<div id="valla" class="section">
+<h2>Valla menos vencida</h2>
+<ul>
+<li>Arquero A – 3 goles</li>
+</ul>
+</div>
+
+<div id="sanciones" class="section">
 <h2>Sanciones</h2>
 <ul>
 <li>Jugador X – 1 fecha</li>
 </ul>
-</section>
+</div>
 
-<footer>
-© 2026 – 40x20 Futsal
-</footer>
+</div>
 
 </body>
 </html>
