@@ -8,32 +8,48 @@
 body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f3f6; color: #333; overflow-x: hidden; }
 .app { max-width: 480px; margin: auto; min-height: 100vh; background: #f1f3f6; }
 
-/* HEADER */
+/* HEADER MEJORADO */
 header {
 background: linear-gradient(135deg, #0d47a1, #1565c0);
 color: white;
 text-align: center;
-padding: 40px 20px;
+padding: 30px 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
-.logo-principal {
+
+/* Contenedor para asegurar que la imagen se vea */
+.logo-wrapper {
 width: 200px;
-height: auto;
-display: block;
-margin: 0 auto;
-filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3));
+height: 200px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 10px;
 }
+
+.logo-principal {
+max-width: 100%;
+max-height: 100%;
+display: block;
+object-fit: contain;
+filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3));
+border-radius: 12px;
+}
+
 .slogan {
 display: block;
 font-size: 16px;
 font-style: italic;
 opacity: 0.95;
-margin-top: 20px;
+margin-top: 10px;
+font-weight: 300;
 }
 
-/* CONTENEDORES DE PANTALLA */
+/* PANTALLAS */
 .screen { display: none; padding: 16px; animation: fadeIn 0.3s ease; }
 .active { display: block; }
-
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* BOTONES */
@@ -43,35 +59,34 @@ background: white; border: none; border-radius: 16px;
 text-align: left; font-size: 16px; font-weight: bold; cursor: pointer;
 box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #0d47a1;
 box-sizing: border-box;
+text-decoration: none;
 }
 .btn span { margin-right: 15px; font-size: 22px; }
 .btn:active { background: #e3f2fd; transform: scale(0.98); }
 .btn-back { background: #455a64; color: white; justify-content: center; margin-top: 10px; }
 
-/* TARJETAS DE DATOS */
+/* TABLAS */
 .card { background: white; padding: 20px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 15px; }
 h2 { margin-top: 0; color: #0d47a1; font-size: 22px; border-bottom: 2px solid #f1f3f6; padding-bottom: 10px; }
-
-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th { text-align: left; background: #e3f2fd; padding: 10px; color: #0d47a1; }
 td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
-
-.list { list-style: none; padding: 0; }
-.list li { padding: 12px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
 </style>
 </head>
 <body>
 
 <div class="app">
-<header id="main-header">
-<img src="40x20.jpg" alt="40x20 Futsal" class="logo-principal">
+<header>
+<div class="logo-wrapper">
+<img src="40x20.jpg" alt="Logo 40x20" class="logo-principal">
+</div>
 <span class="slogan">FUTSAL: la pasión que nos une</span>
 </header>
 
 <div id="scr-main" class="screen active">
 <button class="btn" onclick="nav('scr-torneos')"><span>🏆</span> TORNEOS</button>
 <button class="btn" onclick="nav('scr-noticias')"><span>📰</span> NOTICIAS</button>
-<a href="https://www.instagram.com/_40x20futsal?igsh=MTRlM3hiczV1ZThsdA%3D%3D&utm_source=qr" target="_blank" class="btn" style="text-decoration:none">
+<a href="https://www.instagram.com/_40x20futsal?igsh=MTRlM3hiczV1ZThsdA%3D%3D&utm_source=qr" target="_blank" class="btn">
 <span>📸</span> INSTAGRAM
 </a>
 <button class="btn" onclick="nav('scr-contacto')"><span>📞</span> CONTACTO</button>
@@ -106,7 +121,7 @@ td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
 <div id="scr-noticias" class="screen">
 <div class="card">
 <h2>Noticias</h2>
-<p>Actualizaciones pronto...</p>
+<p>Bienvenido a la plataforma oficial de 40x20 Futsal Posadas.</p>
 </div>
 <button class="btn btn-back" onclick="nav('scr-main')">Volver</button>
 </div>
@@ -114,7 +129,7 @@ td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
 <div id="scr-contacto" class="screen">
 <div class="card">
 <h2>Contacto</h2>
-<a href="https://wa.me/543764532126" target="_blank" class="btn" style="background:#25d366; color:white; justify-content:center; text-decoration:none">
+<a href="https://wa.me/543764532126" target="_blank" class="btn" style="background:#25d366; color:white; justify-content:center;">
 WhatsApp Directo
 </a>
 </div>
@@ -125,13 +140,9 @@ WhatsApp Directo
 <script>
 let torneoSeleccionado = "";
 
-// Función principal de navegación
 function nav(id) {
-// Ocultar todas las pantallas
 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-// Mostrar la elegida
 document.getElementById(id).classList.add('active');
-// Forzar que la página suba al inicio
 window.scrollTo(0, 0);
 }
 
@@ -145,13 +156,11 @@ function showData(tipo) {
 const container = document.getElementById('data-content');
 document.getElementById('data-titulo').innerText = tipo + " - " + torneoSeleccionado;
 
-// Ejemplo de carga de datos
 if(tipo === 'Tabla') {
-container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr><tr><td>1</td><td>Ejemplo FC</td><td>15</td></tr></table>`;
+container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr><tr><td>1</td><td>Telecentro Tacuarí</td><td>15</td></tr><tr><td>2</td><td>Plastimi</td><td>12</td></tr></table>`;
 } else {
-container.innerHTML = `<ul class="list"><li>Cargando datos de ${tipo}...</li></ul>`;
+container.innerHTML = `<p style="text-align:center; padding:20px;">Próximamente datos de ${tipo}...</p>`;
 }
-
 nav('scr-data');
 }
 </script>
