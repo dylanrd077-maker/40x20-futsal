@@ -2,102 +2,154 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>40x20 Futsal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>40x20 Fútbol Sala</title>
 
 <style>
-body {
+* {
+box-sizing: border-box;
 margin: 0;
-font-family: Arial, sans-serif;
-background: #0b1c2d;
-color: #ffffff;
+padding: 0;
 }
 
+body {
+font-family: 'Segoe UI', Arial, sans-serif;
+background: #0b1c2d;
+color: #ffffff;
+line-height: 1.6;
+}
+
+/* ===== HEADER ===== */
 header {
+background: linear-gradient(180deg, #081a2f, #051428);
 text-align: center;
-padding: 20px;
-background: #081420;
+padding: 30px 15px;
+border-bottom: 3px solid #e63946;
 }
 
 header img {
-width: 220px;
-max-width: 80%;
-display: block;
-margin: 0 auto 10px;
-}
-
-nav {
-display: flex;
-justify-content: center;
-gap: 10px;
-flex-wrap: wrap;
-background: #10263f;
-padding: 10px;
-}
-
-nav a {
-color: white;
-text-decoration: none;
-font-weight: bold;
-padding: 6px 10px;
-border-radius: 4px;
-background: #1c3c66;
-}
-
-section {
-padding: 25px;
-max-width: 1000px;
-margin: auto;
-}
-
-h2 {
-border-bottom: 2px solid #1c3c66;
-padding-bottom: 5px;
+width: 200px;
+max-width: 90%;
 margin-bottom: 15px;
 }
 
+header h1 {
+font-size: 30px;
+letter-spacing: 2px;
+}
+
+/* ===== NAV ===== */
+nav {
+background: #102d52;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 10px;
+padding: 12px;
+}
+
+nav a {
+color: #ffffff;
+text-decoration: none;
+font-weight: 600;
+padding: 8px 14px;
+border-radius: 4px;
+transition: background 0.3s;
+}
+
+nav a:hover {
+background: #1c4a80;
+}
+
+/* ===== MAIN ===== */
+main {
+max-width: 1100px;
+margin: auto;
+padding: 25px 15px;
+}
+
+section {
+margin-bottom: 50px;
+}
+
+section h2 {
+color: #e63946;
+margin-bottom: 15px;
+border-left: 5px solid #e63946;
+padding-left: 10px;
+}
+
+/* ===== LISTAS ===== */
+ul {
+margin-left: 20px;
+}
+
+ul li {
+margin-bottom: 8px;
+}
+
+/* ===== TABLAS ===== */
 table {
 width: 100%;
 border-collapse: collapse;
 margin-top: 10px;
+background: #081a2f;
 }
 
-table th, table td {
-border: 1px solid #1c3c66;
-padding: 8px;
+th, td {
+border: 1px solid #1c4a80;
+padding: 10px;
 text-align: center;
 }
 
-table th {
-background: #1c3c66;
+th {
+background: #102d52;
 }
 
-footer {
-background: #081420;
-text-align: center;
-padding: 20px;
-margin-top: 30px;
+/* ===== CONTACTO ===== */
+.contacto {
+display: flex;
+flex-direction: column;
+gap: 10px;
 }
 
 .contacto a {
-display: block;
-color: #00ffcc;
+display: inline-block;
+background: #1c4a80;
+padding: 10px;
+border-radius: 5px;
+color: white;
 text-decoration: none;
-margin: 5px 0;
+max-width: 260px;
+text-align: center;
 font-weight: bold;
+}
+
+.contacto a:hover {
+background: #e63946;
+}
+
+/* ===== FOOTER ===== */
+footer {
+background: #051428;
+text-align: center;
+padding: 15px;
+font-size: 14px;
+border-top: 2px solid #1c4a80;
 }
 </style>
 </head>
 
 <body>
 
+<!-- ===== HEADER ===== -->
 <header>
 <!-- LOGO -->
-<img src="IMG_3936.png" alt="40x20 Futsal Logo">
-<h1>40x20 Futsal</h1>
-<p>Liga de Fútbol Sala</p>
+<img src="IMG_3936.png" alt="Logo 40x20 Fútbol Sala">
+<h1>40x20 Fútbol Sala</h1>
 </header>
 
+<!-- ===== MENU ===== -->
 <nav>
 <a href="#torneos">Torneos</a>
 <a href="#tabla">Tabla</a>
@@ -107,8 +159,11 @@ font-weight: bold;
 <a href="#contacto">Contacto</a>
 </nav>
 
+<!-- ===== CONTENIDO ===== -->
+<main>
+
 <section id="torneos">
-<h2>🏆 Torneos</h2>
+<h2>Torneos</h2>
 <ul>
 <li>Apertura 2026</li>
 <li>Clausura 2026</li>
@@ -117,7 +172,7 @@ font-weight: bold;
 </section>
 
 <section id="tabla">
-<h2>📊 Tabla de posiciones</h2>
+<h2>Tabla de Posiciones</h2>
 <table>
 <tr>
 <th>Equipo</th>
@@ -132,13 +187,13 @@ font-weight: bold;
 <tr>
 <td>Equipo B</td>
 <td>5</td>
-<td>10</td>
+<td>9</td>
 </tr>
 </table>
 </section>
 
 <section id="fixture">
-<h2>📅 Fixture</h2>
+<h2>Fixture</h2>
 <ul>
 <li>Equipo A vs Equipo B</li>
 <li>Equipo C vs Equipo D</li>
@@ -147,43 +202,36 @@ font-weight: bold;
 </section>
 
 <section id="goleadores">
-<h2>⚽ Goleadores</h2>
-<table>
-<tr>
-<th>Jugador</th>
-<th>Equipo</th>
-<th>Goles</th>
-</tr>
-<tr>
-<td>Juan Pérez</td>
-<td>Equipo A</td>
-<td>8</td>
-</tr>
-<tr>
-<td>Lucas Gómez</td>
-<td>Equipo B</td>
-<td>6</td>
-</tr>
-</table>
+<h2>Goleadores</h2>
+<ul>
+<li>Jugador 1 – 8 goles</li>
+<li>Jugador 2 – 6 goles</li>
+<li>Jugador 3 – 5 goles</li>
+</ul>
 </section>
 
 <section id="sanciones">
-<h2>🚫 Sanciones</h2>
+<h2>Sanciones</h2>
 <ul>
 <li>Jugador X – 1 fecha</li>
 <li>Jugador Y – 2 fechas</li>
 </ul>
 </section>
 
-<section id="contacto" class="contacto">
-<h2>📲 Contacto</h2>
+<section id="contacto">
+<h2>Contacto</h2>
+<div class="contacto">
 <a href="https://www.instagram.com/" target="_blank">📸 Instagram</a>
-<a href="https://wa.me/5490000000000" target="_blank">💬 WhatsApp</a>
-<a href="mailto:contacto@40x20futsal.com">✉️ Email</a>
+<a href="https://wa.me/5491111111111" target="_blank">📲 WhatsApp</a>
+<a href="mailto:contacto@40x20.com">✉️ Email</a>
+</div>
 </section>
 
+</main>
+
+<!-- ===== FOOTER ===== -->
 <footer>
-<p>© 2026 – 40x20 Futsal</p>
+© 2026 – 40x20 Fútbol Sala
 </footer>
 
 </body>
