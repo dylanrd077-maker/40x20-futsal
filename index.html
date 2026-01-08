@@ -6,140 +6,108 @@
 <title>40x20 Futsal</title>
 
 <style>
-body {
-margin: 0;
-font-family: Arial, Helvetica, sans-serif;
-background: #f2f4f7;
+body{margin:0;font-family:Arial;background:#f2f4f7}
+.header{background:#071b33;text-align:center;padding:25px}
+.header img{width:140px}
+.header p{color:#dbe4f0;font-style:italic;margin:8px 0 0}
+
+.container{padding:20px}
+
+.btn{
+background:white;
+padding:16px;
+margin-bottom:12px;
+border-radius:14px;
+font-size:18px;
+font-weight:bold;
+box-shadow:0 5px 12px rgba(0,0,0,.1);
+cursor:pointer;
 }
 
-/* HEADER */
-.header {
-background: #071b33;
-color: white;
-text-align: center;
-padding: 25px 15px;
+.back{background:#071b33;color:white;text-align:center}
+
+.hidden{display:none}
+
+.section{
+background:white;
+padding:18px;
+border-radius:14px;
+margin-top:15px;
 }
 
-.header img {
-width: 130px;
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid #ccc;text-align:center}
+th{background:#071b33;color:white}
+
+.carousel{
+background:white;
+padding:15px;
+border-radius:14px;
+margin:15px 0;
+display:flex;
+gap:15px;
+overflow-x:auto;
+}
+.card{
+min-width:200px;
+background:#071b33;
+color:white;
+padding:15px;
+border-radius:12px;
+text-align:center;
+flex-shrink:0;
 }
 
-.header h1 {
-margin: 10px 0 5px;
-}
-
-.header p {
-opacity: 0.8;
-font-style: italic;
-}
-
-/* CONTENEDOR */
-.container {
-padding: 20px;
-}
-
-/* BOTONES */
-.btn {
-background: white;
-padding: 16px;
-margin-bottom: 12px;
-border-radius: 14px;
-font-size: 18px;
-font-weight: bold;
-box-shadow: 0 5px 12px rgba(0,0,0,0.1);
-cursor: pointer;
-}
-
-/* SUBMENU */
-.submenu {
-display: none;
-margin-top: 10px;
-}
-
-.submenu .btn {
-background: #e9eef4;
-font-size: 16px;
-}
-
-/* SECCIONES */
-.section {
-display: none;
-background: white;
-padding: 18px;
-border-radius: 14px;
-margin-top: 15px;
-}
-
-.section h2 {
-color: #071b33;
-margin-bottom: 10px;
-}
-
-/* TABLA */
-table {
-width: 100%;
-border-collapse: collapse;
-}
-
-th, td {
-padding: 8px;
-border-bottom: 1px solid #ccc;
-text-align: center;
-}
-
-th {
-background: #071b33;
-color: white;
-}
+.footer{margin-top:30px}
 </style>
-
-<script>
-function toggle(id) {
-document.querySelectorAll('.submenu').forEach(el => el.style.display = 'none');
-document.querySelectorAll('.section').forEach(el => el.style.display = 'none');
-document.getElementById(id).style.display = 'block';
-}
-
-function showSection(id) {
-document.querySelectorAll('.section').forEach(el => el.style.display = 'none');
-document.getElementById(id).style.display = 'block';
-}
-</script>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-<img src="IMG_3936.png" alt="40x20 Futsal">
-<h1>40x20 Futsal</h1>
-<p>La pasión que nos une</p>
+<img src="IMG_3936.png">
+<p>Futsal: la pasión que nos une</p>
 </div>
 
 <div class="container">
 
+<!-- HOME -->
+<div id="home">
+<div class="btn" onclick="showTorneos()">🏆 TORNEOS</div>
+
+<div class="carousel">
+<div class="card">Entrevista 1</div>
+<div class="card">Entrevista 2</div>
+<div class="card">Entrevista 3</div>
+</div>
+
+<div class="btn" onclick="alert('Instagram próximamente')">📸 INSTAGRAM</div>
+<div class="btn" onclick="alert('WhatsApp próximamente')">📞 WHATSAPP</div>
+</div>
+
 <!-- TORNEOS -->
-<div class="btn" onclick="toggle('ligas')">🏆 Torneos</div>
+<div id="torneos" class="hidden">
+<div class="btn back" onclick="goHome()">⬅ Volver</div>
 
-<div id="ligas" class="submenu">
-<div class="btn" onclick="toggle('lpf')">LPF</div>
-<div class="btn" onclick="toggle('lamba')">La AMBA</div>
-<div class="btn" onclick="toggle('apofusa')">A.Po.Fu.Sa</div>
+<div class="btn" onclick="openTorneo('LPF')">LPF</div>
+<div class="btn" onclick="openTorneo('LaAMBA')">LaAMBA</div>
+<div class="btn" onclick="openTorneo('A.Po.Fu.Sa')">A.Po.Fu.Sa</div>
 </div>
 
-<!-- SUBMENU LPF -->
-<div id="lpf" class="submenu">
-<div class="btn" onclick="showSection('tabla')">📊 Tabla</div>
-<div class="btn" onclick="showSection('fixture')">📅 Fixture</div>
-<div class="btn" onclick="showSection('resultados')">🏁 Resultados</div>
-<div class="btn" onclick="showSection('goleadores')">⚽ Goleadores</div>
-<div class="btn" onclick="showSection('valla')">🧤 Valla menos vencida</div>
-<div class="btn" onclick="showSection('sanciones')">🚫 Sanciones</div>
-</div>
+<!-- TORNEO DETALLE -->
+<div id="detalle" class="hidden">
+<div class="btn back" onclick="backToTorneos()">⬅ Volver a torneos</div>
+
+<div class="btn" onclick="showSection('posiciones')">Tabla de posiciones</div>
+<div class="btn" onclick="showSection('fixture')">Fixture</div>
+<div class="btn" onclick="showSection('resultados')">Resultados</div>
+<div class="btn" onclick="showSection('sanciones')">Sanciones</div>
+<div class="btn" onclick="showSection('goleadores')">Goleadores</div>
+<div class="btn" onclick="showSection('valla')">Valla menos vencida</div>
 
 <!-- SECCIONES -->
-<div id="tabla" class="section">
-<h2>Tabla de posiciones</h2>
+<div id="posiciones" class="section hidden">
+<h3>Tabla de posiciones</h3>
 <table>
 <tr><th>Equipo</th><th>PJ</th><th>PTS</th></tr>
 <tr><td>Equipo A</td><td>5</td><td>12</td></tr>
@@ -147,43 +115,74 @@ document.getElementById(id).style.display = 'block';
 </table>
 </div>
 
-<div id="fixture" class="section">
-<h2>Fixture</h2>
+<div id="fixture" class="section hidden">
+<h3>Fixture</h3>
 <ul>
 <li>Equipo A vs Equipo B</li>
 <li>Equipo C vs Equipo D</li>
 </ul>
 </div>
 
-<div id="resultados" class="section">
-<h2>Resultados</h2>
-<ul>
-<li>Equipo A 3 - 1 Equipo B</li>
-</ul>
+<div id="resultados" class="section hidden">
+<h3>Resultados</h3>
+<p>Próximamente</p>
 </div>
 
-<div id="goleadores" class="section">
-<h2>Goleadores</h2>
-<ul>
-<li>Jugador 1 – 8 goles</li>
-</ul>
+<div id="sanciones" class="section hidden">
+<h3>Sanciones</h3>
+<p>Sin sanciones</p>
 </div>
 
-<div id="valla" class="section">
-<h2>Valla menos vencida</h2>
-<ul>
-<li>Arquero A – 3 goles</li>
-</ul>
+<div id="goleadores" class="section hidden">
+<h3>Goleadores</h3>
+<p>Jugador 1 - 8 goles</p>
 </div>
 
-<div id="sanciones" class="section">
-<h2>Sanciones</h2>
-<ul>
-<li>Jugador X – 1 fecha</li>
-</ul>
+<div id="valla" class="section hidden">
+<h3>Valla menos vencida</h3>
+<p>Arquero A</p>
+</div>
+</div>
+
+<div class="footer carousel">
+<div class="card">Sponsor 1</div>
+<div class="card">Sponsor 2</div>
+<div class="card">Sponsor 3</div>
 </div>
 
 </div>
+
+<script>
+function showTorneos(){
+hideAll()
+document.getElementById('torneos').classList.remove('hidden')
+}
+
+function openTorneo(nombre){
+hideAll()
+document.getElementById('detalle').classList.remove('hidden')
+}
+
+function showSection(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'))
+document.getElementById(id).classList.remove('hidden')
+}
+
+function backToTorneos(){
+hideAll()
+document.getElementById('torneos').classList.remove('hidden')
+}
+
+function goHome(){
+hideAll()
+document.getElementById('home').classList.remove('hidden')
+}
+
+function hideAll(){
+document.querySelectorAll('#home,#torneos,#detalle').forEach(d=>d.classList.add('hidden'))
+document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'))
+}
+</script>
 
 </body>
 </html>
