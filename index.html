@@ -6,182 +6,215 @@
 <title>40x20 Futsal</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f2f4f7}
-.header{background:#071b33;text-align:center;padding:25px}
-.header img{width:140px}
-.header p{color:#dbe4f0;font-style:italic;margin:8px 0 0}
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:#f2f4f7}
 
+/* HEADER */
+header{
+background:#081c33;
+color:white;
+text-align:center;
+padding:25px;
+}
+header img{width:130px}
+header p{opacity:.85;font-style:italic}
+
+/* CONTENEDOR */
 .container{padding:20px}
 
-.btn{
+/* CARDS */
+.card{
 background:white;
 padding:16px;
+border-radius:16px;
 margin-bottom:12px;
-border-radius:14px;
-font-size:18px;
 font-weight:bold;
-box-shadow:0 5px 12px rgba(0,0,0,.1);
+box-shadow:0 6px 16px rgba(0,0,0,.08);
 cursor:pointer;
 }
 
-.back{background:#071b33;color:white;text-align:center}
+/* VISTAS */
+.view{display:none}
 
-.hidden{display:none}
-
-.section{
-background:white;
-padding:18px;
-border-radius:14px;
-margin-top:15px;
-}
-
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px;border-bottom:1px solid #ccc;text-align:center}
-th{background:#071b33;color:white}
-
-.carousel{
-background:white;
-padding:15px;
-border-radius:14px;
-margin:15px 0;
-display:flex;
-gap:15px;
-overflow-x:auto;
-}
-.card{
-min-width:200px;
-background:#071b33;
-color:white;
-padding:15px;
+/* VOLVER */
+.back{
+width:100%;
+padding:12px;
 border-radius:12px;
-text-align:center;
-flex-shrink:0;
+background:#081c33;
+color:white;
+border:none;
+font-weight:bold;
+margin-bottom:15px;
 }
 
-.footer{margin-top:30px}
+/* CARRUSEL */
+.carousel{display:flex;gap:12px;overflow-x:auto}
+.carousel .item{
+min-width:220px;
+background:white;
+padding:15px;
+border-radius:14px;
+box-shadow:0 5px 14px rgba(0,0,0,.08);
+}
+
+/* ADMIN */
+.admin{
+background:#111;
+color:white;
+padding:20px;
+border-radius:16px;
+}
+.admin input,.admin textarea{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+}
+.admin button{
+width:100%;
+padding:12px;
+background:#0a4;
+color:white;
+border:none;
+font-weight:bold;
+}
+.footer a{
+display:block;
+text-align:center;
+background:white;
+padding:14px;
+margin-bottom:10px;
+border-radius:14px;
+text-decoration:none;
+color:black;
+}
 </style>
 </head>
 
 <body>
 
-<div class="header">
+<header>
 <img src="IMG_3936.png">
-<p>Futsal: la pasión que nos une</p>
-</div>
+<p>FUTSAL: la pasión que nos une</p>
+</header>
 
 <div class="container">
 
 <!-- HOME -->
 <div id="home">
-<div class="btn" onclick="showTorneos()">🏆 TORNEOS</div>
+<div class="card" onclick="show('torneos')">TORNEOS</div>
 
-<div class="carousel">
-<div class="card">Entrevista 1</div>
-<div class="card">Entrevista 2</div>
-<div class="card">Entrevista 3</div>
+<h3>NOTICIAS</h3>
+<div class="carousel" id="news"></div>
+
+<div class="footer">
+<a href="https://instagram.com" target="_blank">Instagram</a>
+<a href="https://wa.me/5490000000000" target="_blank">WhatsApp</a>
 </div>
 
-<div class="btn" onclick="alert('Instagram próximamente')">📸 INSTAGRAM</div>
-<div class="btn" onclick="alert('WhatsApp próximamente')">📞 WHATSAPP</div>
+<div style="text-align:center;margin-top:20px" onclick="showAdmin()">ADMIN</div>
 </div>
 
 <!-- TORNEOS -->
-<div id="torneos" class="hidden">
-<div class="btn back" onclick="goHome()">⬅ Volver</div>
-
-<div class="btn" onclick="openTorneo('LPF')">LPF</div>
-<div class="btn" onclick="openTorneo('LaAMBA')">LaAMBA</div>
-<div class="btn" onclick="openTorneo('A.Po.Fu.Sa')">A.Po.Fu.Sa</div>
+<div id="torneos" class="view">
+<button class="back" onclick="back()">← Volver</button>
+<div class="card" onclick="show('menu')">LPF</div>
+<div class="card" onclick="show('menu')">LaAMBA</div>
+<div class="card" onclick="show('menu')">A.Po.Fu.Sa</div>
 </div>
 
-<!-- TORNEO DETALLE -->
-<div id="detalle" class="hidden">
-<div class="btn back" onclick="backToTorneos()">⬅ Volver a torneos</div>
-
-<div class="btn" onclick="showSection('posiciones')">Tabla de posiciones</div>
-<div class="btn" onclick="showSection('fixture')">Fixture</div>
-<div class="btn" onclick="showSection('resultados')">Resultados</div>
-<div class="btn" onclick="showSection('sanciones')">Sanciones</div>
-<div class="btn" onclick="showSection('goleadores')">Goleadores</div>
-<div class="btn" onclick="showSection('valla')">Valla menos vencida</div>
-
-<!-- SECCIONES -->
-<div id="posiciones" class="section hidden">
-<h3>Tabla de posiciones</h3>
-<table>
-<tr><th>Equipo</th><th>PJ</th><th>PTS</th></tr>
-<tr><td>Equipo A</td><td>5</td><td>12</td></tr>
-<tr><td>Equipo B</td><td>5</td><td>9</td></tr>
-</table>
+<!-- MENU TORNEO -->
+<div id="menu" class="view">
+<button class="back" onclick="back()">← Volver</button>
+<div class="card" onclick="openData('posiciones')">Tabla de posiciones</div>
+<div class="card" onclick="openData('fixture')">Fixture</div>
+<div class="card" onclick="openData('resultados')">Resultados</div>
+<div class="card" onclick="openData('sanciones')">Sanciones</div>
+<div class="card" onclick="openData('goleadores')">Goleadores</div>
+<div class="card" onclick="openData('valla')">Valla menos vencida</div>
 </div>
 
-<div id="fixture" class="section hidden">
-<h3>Fixture</h3>
-<ul>
-<li>Equipo A vs Equipo B</li>
-<li>Equipo C vs Equipo D</li>
-</ul>
+<!-- DATA VIEW -->
+<div id="data" class="view">
+<button class="back" onclick="back()">← Volver</button>
+<div class="card" id="dataContent"></div>
 </div>
 
-<div id="resultados" class="section hidden">
-<h3>Resultados</h3>
-<p>Próximamente</p>
-</div>
+<!-- ADMIN -->
+<div id="admin" class="view">
+<button class="back" onclick="back()">← Volver</button>
 
-<div id="sanciones" class="section hidden">
-<h3>Sanciones</h3>
-<p>Sin sanciones</p>
-</div>
+<div class="admin">
+<input id="adminPass" placeholder="Clave admin">
+<button onclick="login()">Ingresar</button>
 
-<div id="goleadores" class="section hidden">
-<h3>Goleadores</h3>
-<p>Jugador 1 - 8 goles</p>
-</div>
+<div id="adminPanel" style="display:none">
+<h3>Noticias</h3>
+<textarea id="newsInput" placeholder="Una noticia por línea"></textarea>
+<button onclick="saveNews()">Guardar noticias</button>
 
-<div id="valla" class="section hidden">
-<h3>Valla menos vencida</h3>
-<p>Arquero A</p>
+<h3>Contenido general</h3>
+<textarea id="dataInput" placeholder="Contenido de tablas / fixture / etc"></textarea>
+<button onclick="saveData()">Guardar contenido</button>
 </div>
 </div>
-
-<div class="footer carousel">
-<div class="card">Sponsor 1</div>
-<div class="card">Sponsor 2</div>
-<div class="card">Sponsor 3</div>
 </div>
 
 </div>
 
 <script>
-function showTorneos(){
-hideAll()
-document.getElementById('torneos').classList.remove('hidden')
+let stack=['home'];
+let currentSection='';
+
+function show(id){
+document.querySelectorAll('.view,#home').forEach(e=>e.style.display='none');
+document.getElementById(id).style.display='block';
+stack.push(id);
+}
+function back(){
+stack.pop();
+let last=stack[stack.length-1];
+document.querySelectorAll('.view,#home').forEach(e=>e.style.display='none');
+document.getElementById(last).style.display='block';
+}
+function openData(type){
+currentSection=type;
+document.getElementById('dataContent').innerText=
+localStorage.getItem(type) || 'Sin datos cargados';
+show('data');
 }
 
-function openTorneo(nombre){
-hideAll()
-document.getElementById('detalle').classList.remove('hidden')
+/* ADMIN */
+function showAdmin(){show('admin')}
+function login(){
+if(document.getElementById('adminPass').value==='4020'){
+document.getElementById('adminPanel').style.display='block';
+}
+}
+function saveNews(){
+localStorage.setItem('news',document.getElementById('newsInput').value);
+loadNews();
+}
+function saveData(){
+localStorage.setItem(currentSection||'posiciones',
+document.getElementById('dataInput').value);
 }
 
-function showSection(id){
-document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'))
-document.getElementById(id).classList.remove('hidden')
+/* CARGA */
+function loadNews(){
+let n=document.getElementById('news');
+n.innerHTML='';
+let data=(localStorage.getItem('news')||'').split('\n');
+data.forEach(t=>{
+if(t.trim()){
+let d=document.createElement('div');
+d.className='item';
+d.innerText=t;
+n.appendChild(d);
 }
-
-function backToTorneos(){
-hideAll()
-document.getElementById('torneos').classList.remove('hidden')
+});
 }
-
-function goHome(){
-hideAll()
-document.getElementById('home').classList.remove('hidden')
-}
-
-function hideAll(){
-document.querySelectorAll('#home,#torneos,#detalle').forEach(d=>d.classList.add('hidden'))
-document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'))
-}
+loadNews();
 </script>
 
 </body>
