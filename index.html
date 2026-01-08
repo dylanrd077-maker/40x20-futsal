@@ -6,87 +6,84 @@
 <title>40x20 Futsal</title>
 
 <style>
-*{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:#f2f4f7}
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:#f2f4f7;color:#111}
 
 /* HEADER */
 header{
 background:#081c33;
-color:white;
+color:#fff;
+padding:30px 20px;
 text-align:center;
-padding:25px;
 }
-header img{width:130px}
-header p{opacity:.85;font-style:italic}
+header img{
+width:140px;
+max-width:80%;
+}
+header p{
+margin-top:10px;
+font-style:italic;
+opacity:.9;
+}
 
 /* CONTENEDOR */
 .container{padding:20px}
 
-/* CARDS */
+/* BOTONES */
 .card{
-background:white;
-padding:16px;
+background:#fff;
 border-radius:16px;
-margin-bottom:12px;
+padding:18px;
+margin-bottom:14px;
 font-weight:bold;
-box-shadow:0 6px 16px rgba(0,0,0,.08);
+box-shadow:0 8px 18px rgba(0,0,0,.08);
 cursor:pointer;
 }
 
-/* VISTAS */
+/* OCULTAR VISTAS */
 .view{display:none}
 
 /* VOLVER */
 .back{
-width:100%;
+background:#081c33;
+color:#fff;
+border:none;
 padding:12px;
 border-radius:12px;
-background:#081c33;
-color:white;
-border:none;
-font-weight:bold;
 margin-bottom:15px;
+width:100%;
+font-weight:bold;
 }
 
-/* CARRUSEL */
-.carousel{display:flex;gap:12px;overflow-x:auto}
+/* CARRUSELES */
+.carousel{
+display:flex;
+gap:12px;
+overflow-x:auto;
+padding-bottom:10px;
+}
 .carousel .item{
 min-width:220px;
-background:white;
-padding:15px;
+background:#fff;
 border-radius:14px;
-box-shadow:0 5px 14px rgba(0,0,0,.08);
+padding:16px;
+box-shadow:0 6px 14px rgba(0,0,0,.08);
 }
 
-/* ADMIN */
-.admin{
-background:#111;
-color:white;
-padding:20px;
-border-radius:16px;
-}
-.admin input,.admin textarea{
-width:100%;
-padding:10px;
-margin-bottom:10px;
-}
-.admin button{
-width:100%;
-padding:12px;
-background:#0a4;
-color:white;
-border:none;
-font-weight:bold;
+/* FOOTER */
+.footer{
+margin-top:30px;
 }
 .footer a{
 display:block;
 text-align:center;
-background:white;
-padding:14px;
-margin-bottom:10px;
-border-radius:14px;
+background:#fff;
+padding:16px;
+border-radius:16px;
+margin-bottom:12px;
+font-weight:bold;
 text-decoration:none;
-color:black;
+color:#111;
 }
 </style>
 </head>
@@ -94,7 +91,7 @@ color:black;
 <body>
 
 <header>
-<img src="IMG_3936.png">
+<img src="IMG_3936.png" alt="40x20 Futsal">
 <p>FUTSAL: la pasión que nos une</p>
 </header>
 
@@ -102,119 +99,93 @@ color:black;
 
 <!-- HOME -->
 <div id="home">
+
 <div class="card" onclick="show('torneos')">TORNEOS</div>
 
 <h3>NOTICIAS</h3>
-<div class="carousel" id="news"></div>
-
-<div class="footer">
-<a href="https://instagram.com" target="_blank">Instagram</a>
-<a href="https://wa.me/5490000000000" target="_blank">WhatsApp</a>
+<div class="carousel">
+<div class="item">Noticia destacada 1</div>
+<div class="item">Noticia destacada 2</div>
+<div class="item">Noticia destacada 3</div>
 </div>
 
-<div style="text-align:center;margin-top:20px" onclick="showAdmin()">ADMIN</div>
 </div>
 
 <!-- TORNEOS -->
 <div id="torneos" class="view">
 <button class="back" onclick="back()">← Volver</button>
-<div class="card" onclick="show('menu')">LPF</div>
-<div class="card" onclick="show('menu')">LaAMBA</div>
-<div class="card" onclick="show('menu')">A.Po.Fu.Sa</div>
+<div class="card" onclick="show('menuLPF')">LPF</div>
+<div class="card" onclick="show('menuLAAMBA')">LaAMBA</div>
+<div class="card" onclick="show('menuAPOFUSA')">A.Po.Fu.Sa</div>
 </div>
 
-<!-- MENU TORNEO -->
-<div id="menu" class="view">
-<button class="back" onclick="back()">← Volver</button>
-<div class="card" onclick="openData('posiciones')">Tabla de posiciones</div>
-<div class="card" onclick="openData('fixture')">Fixture</div>
-<div class="card" onclick="openData('resultados')">Resultados</div>
-<div class="card" onclick="openData('sanciones')">Sanciones</div>
-<div class="card" onclick="openData('goleadores')">Goleadores</div>
-<div class="card" onclick="openData('valla')">Valla menos vencida</div>
+<!-- MENÚS DE TORNEO -->
+<div id="menuLPF" class="view">
+<button class="back" onclick="show('torneos')">← Volver</button>
+<div class="card" onclick="show('posiciones')">Tabla de posiciones</div>
+<div class="card" onclick="show('fixture')">Fixture</div>
+<div class="card" onclick="show('resultados')">Resultados</div>
+<div class="card" onclick="show('sanciones')">Sanciones</div>
+<div class="card" onclick="show('goleadores')">Goleadores</div>
+<div class="card" onclick="show('valla')">Valla menos vencida</div>
 </div>
 
-<!-- DATA VIEW -->
-<div id="data" class="view">
-<button class="back" onclick="back()">← Volver</button>
-<div class="card" id="dataContent"></div>
+<div id="menuLAAMBA" class="view">
+<button class="back" onclick="show('torneos')">← Volver</button>
+<div class="card" onclick="show('posiciones')">Tabla de posiciones</div>
+<div class="card" onclick="show('fixture')">Fixture</div>
+<div class="card" onclick="show('resultados')">Resultados</div>
+<div class="card" onclick="show('sanciones')">Sanciones</div>
+<div class="card" onclick="show('goleadores')">Goleadores</div>
+<div class="card" onclick="show('valla')">Valla menos vencida</div>
 </div>
 
-<!-- ADMIN -->
-<div id="admin" class="view">
-<button class="back" onclick="back()">← Volver</button>
-
-<div class="admin">
-<input id="adminPass" placeholder="Clave admin">
-<button onclick="login()">Ingresar</button>
-
-<div id="adminPanel" style="display:none">
-<h3>Noticias</h3>
-<textarea id="newsInput" placeholder="Una noticia por línea"></textarea>
-<button onclick="saveNews()">Guardar noticias</button>
-
-<h3>Contenido general</h3>
-<textarea id="dataInput" placeholder="Contenido de tablas / fixture / etc"></textarea>
-<button onclick="saveData()">Guardar contenido</button>
+<div id="menuAPOFUSA" class="view">
+<button class="back" onclick="show('torneos')">← Volver</button>
+<div class="card" onclick="show('posiciones')">Tabla de posiciones</div>
+<div class="card" onclick="show('fixture')">Fixture</div>
+<div class="card" onclick="show('resultados')">Resultados</div>
+<div class="card" onclick="show('sanciones')">Sanciones</div>
+<div class="card" onclick="show('goleadores')">Goleadores</div>
+<div class="card" onclick="show('valla')">Valla menos vencida</div>
 </div>
+
+<!-- SECCIONES -->
+<div id="posiciones" class="view"><button class="back" onclick="back()">← Volver</button><div class="card">Tabla de posiciones</div></div>
+<div id="fixture" class="view"><button class="back" onclick="back()">← Volver</button><div class="card">Fixture</div></div>
+<div id="resultados" class="view"><button class="back" onclick="back()">← Volver</button><div class="card">Resultados</div></div>
+<div id="sanciones" class="view"><button class="back" onclick="back()">← Volver</button><div class="card">Sin sanciones</div></div>
+<div id="goleadores" class="view"><button class="back" onclick="back()">← Volver</button><div class="card">Goleadores</div></div>
+<div id="valla" class="view"><button class="back" onclick="back()">← Volver</button><div class="card">Valla menos vencida</div></div>
+
+<!-- FOOTER -->
+<div class="footer">
+<a href="https://instagram.com" target="_blank">Instagram</a>
+<a href="https://wa.me/5490000000000" target="_blank">WhatsApp</a>
+
+<h3>Nuestros sponsors</h3>
+<div class="carousel">
+<div class="item">Sponsor</div>
+<div class="item">Sponsor</div>
+<div class="item">Sponsor</div>
 </div>
 </div>
 
 </div>
 
 <script>
-let stack=['home'];
-let currentSection='';
-
+let historyStack = ['home'];
 function show(id){
-document.querySelectorAll('.view,#home').forEach(e=>e.style.display='none');
+document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none');
 document.getElementById(id).style.display='block';
-stack.push(id);
+historyStack.push(id);
 }
 function back(){
-stack.pop();
-let last=stack[stack.length-1];
-document.querySelectorAll('.view,#home').forEach(e=>e.style.display='none');
+historyStack.pop();
+let last = historyStack[historyStack.length-1];
+document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none');
 document.getElementById(last).style.display='block';
 }
-function openData(type){
-currentSection=type;
-document.getElementById('dataContent').innerText=
-localStorage.getItem(type) || 'Sin datos cargados';
-show('data');
-}
-
-/* ADMIN */
-function showAdmin(){show('admin')}
-function login(){
-if(document.getElementById('adminPass').value==='4020'){
-document.getElementById('adminPanel').style.display='block';
-}
-}
-function saveNews(){
-localStorage.setItem('news',document.getElementById('newsInput').value);
-loadNews();
-}
-function saveData(){
-localStorage.setItem(currentSection||'posiciones',
-document.getElementById('dataInput').value);
-}
-
-/* CARGA */
-function loadNews(){
-let n=document.getElementById('news');
-n.innerHTML='';
-let data=(localStorage.getItem('news')||'').split('\n');
-data.forEach(t=>{
-if(t.trim()){
-let d=document.createElement('div');
-d.className='item';
-d.innerText=t;
-n.appendChild(d);
-}
-});
-}
-loadNews();
 </script>
 
 </body>
