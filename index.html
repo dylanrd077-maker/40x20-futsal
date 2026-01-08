@@ -6,171 +6,187 @@
 <title>40x20 Futsal</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f2f4f8}
-.app{max-width:480px;margin:auto}
-header{background:#071b33;color:#fff;text-align:center;padding:25px}
-header img{width:180px}
-header span{display:block;margin-top:10px;font-style:italic;opacity:.9}
-.screen{display:none;padding:20px}
-.active{display:block}
-.btn{width:100%;padding:16px;margin-bottom:12px;border:none;border-radius:14px;background:#fff;font-weight:bold}
-.btn-back{background:#555;color:#fff}
-.card{background:#fff;padding:15px;border-radius:14px}
-.tabla{width:100%;border-collapse:collapse}
-.tabla th{background:#071b33;color:#fff;padding:10px}
-.tabla td{padding:10px;border-bottom:1px solid #ddd}
-.fila{display:flex;align-items:center;gap:8px}
-.fila img{width:26px}
-.partido{border-bottom:1px solid #ddd;padding:10px}
-input{width:100%;padding:10px;margin-bottom:8px}
-select{width:100%;padding:10px;margin-bottom:8px}
+*{
+box-sizing:border-box;
+font-family:system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+body{
+margin:0;
+background:#f1f3f6;
+color:#111;
+}
+
+/* HEADER */
+header{
+background:#071b33;
+padding:28px 20px;
+text-align:center;
+}
+header img{
+width:140px;
+}
+header p{
+margin:10px 0 0;
+color:#dbe4f0;
+font-style:italic;
+}
+
+/* CONTENEDOR */
+.container{
+padding:20px;
+}
+
+/* VISTAS */
+.view{display:none}
+
+/* BOTONES */
+.btn{
+background:#fff;
+border-radius:16px;
+padding:18px;
+margin-bottom:14px;
+font-size:17px;
+font-weight:600;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+cursor:pointer;
+transition:.2s;
+}
+.btn:active{transform:scale(.98)}
+
+.btn-dark{
+background:#071b33;
+color:#fff;
+}
+
+/* TÍTULOS */
+h3{
+margin:20px 0 12px;
+font-size:18px;
+}
+
+/* CARRUSEL */
+.carousel{
+display:flex;
+gap:14px;
+overflow-x:auto;
+padding-bottom:5px;
+}
+.item{
+min-width:220px;
+background:#fff;
+border-radius:16px;
+padding:16px;
+box-shadow:0 6px 16px rgba(0,0,0,.08);
+}
+
+/* CONTENIDO */
+.content-box{
+background:#fff;
+border-radius:16px;
+padding:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+/* FOOTER LINKS */
+.link{
+display:block;
+background:#fff;
+padding:16px;
+border-radius:16px;
+margin-bottom:12px;
+text-align:center;
+text-decoration:none;
+color:#111;
+font-weight:600;
+}
 </style>
 </head>
 
 <body>
-<div class="app">
 
 <header>
-<img src="logo.png">
-<span>FUTSAL: la pasión que nos une</span>
+<img src="IMG_3936.png" alt="40x20 Futsal">
+<p>Futsal: la pasión que nos une</p>
 </header>
 
+<div class="container">
+
 <!-- HOME -->
-<div id="home" class="screen active">
-<button class="btn" onclick="go('torneos')">TORNEOS</button>
-<button class="btn" onclick="go('admin')">ADMIN</button>
+<div id="home">
+<div class="btn btn-dark" onclick="go('torneos')">TORNEOS</div>
+
+<h3>NOTICIAS</h3>
+<div class="carousel">
+<div class="item">Noticia destacada 1</div>
+<div class="item">Noticia destacada 2</div>
+<div class="item">Noticia destacada 3</div>
+</div>
+
+<div style="margin-top:25px">
+<a class="link" href="https://instagram.com" target="_blank">Instagram</a>
+<a class="link" href="https://wa.me/5490000000000" target="_blank">WhatsApp</a>
+</div>
 </div>
 
 <!-- TORNEOS -->
-<div id="torneos" class="screen">
-<button class="btn" onclick="go('menu')">LPF</button>
-<button class="btn btn-back" onclick="go('home')">Volver</button>
+<div id="torneos" class="view">
+<div class="btn btn-dark" onclick="back()">← Volver</div>
+<div class="btn" onclick="openTorneo()">LPF</div>
+<div class="btn" onclick="openTorneo()">LaAMBA</div>
+<div class="btn" onclick="openTorneo()">A.Po.Fu.Sa</div>
 </div>
 
-<!-- MENU -->
-<div id="menu" class="screen">
-<button class="btn" onclick="verPosiciones()">Posiciones</button>
-<button class="btn" onclick="verFixture()">Fixture</button>
-<button class="btn" onclick="verGoleadores()">Goleadores</button>
-<button class="btn btn-back" onclick="go('torneos')">Volver</button>
+<!-- MENU TORNEO -->
+<div id="menuTorneo" class="view">
+<div class="btn btn-dark" onclick="back()">← Volver</div>
+<div class="btn" onclick="openSection('posiciones')">Tabla de posiciones</div>
+<div class="btn" onclick="openSection('fixture')">Fixture</div>
+<div class="btn" onclick="openSection('resultados')">Resultados</div>
+<div class="btn" onclick="openSection('sanciones')">Sanciones</div>
+<div class="btn" onclick="openSection('goleadores')">Goleadores</div>
+<div class="btn" onclick="openSection('valla')">Valla menos vencida</div>
 </div>
 
 <!-- CONTENIDO -->
-<div id="contenido" class="screen">
-<div class="card" id="content"></div>
-<button class="btn btn-back" onclick="go('menu')">Volver</button>
-</div>
-
-<!-- ADMIN -->
-<div id="admin" class="screen">
-<div class="card">
-<h3>Equipos</h3>
-<input id="eqNombre" placeholder="Nombre equipo">
-<input id="eqEscudo" placeholder="escudo.png">
-<button class="btn" onclick="addEquipo()">Agregar equipo</button>
-
-<h3>Cargar partido</h3>
-<input id="fFecha" placeholder="Fecha (ej: 1)">
-<select id="local"></select>
-<select id="visitante"></select>
-<input id="gl" placeholder="Goles local">
-<input id="gv" placeholder="Goles visitante">
-<textarea id="goles" placeholder="Goleadores: Juan 2, Pedro 1"></textarea>
-<button class="btn" onclick="addPartido()">Guardar partido</button>
-</div>
-<button class="btn btn-back" onclick="go('home')">Volver</button>
+<div id="contenido" class="view">
+<div class="btn btn-dark" onclick="back()">← Volver</div>
+<div class="content-box" id="contentBox"></div>
 </div>
 
 </div>
 
 <script>
-let equipos=JSON.parse(localStorage.getItem('equipos'))||[];
-let partidos=JSON.parse(localStorage.getItem('partidos'))||[];
-let goleadores=JSON.parse(localStorage.getItem('goleadores'))||[];
+let history = ['home'];
 
 function go(id){
-document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+document.querySelectorAll('#home,.view').forEach(v=>v.style.display='none');
+document.getElementById(id).style.display='block';
+history.push(id);
 }
 
-function save(){
-localStorage.setItem('equipos',JSON.stringify(equipos));
-localStorage.setItem('partidos',JSON.stringify(partidos));
-localStorage.setItem('goleadores',JSON.stringify(goleadores));
+function back(){
+history.pop();
+let last = history[history.length-1];
+document.querySelectorAll('#home,.view').forEach(v=>v.style.display='none');
+document.getElementById(last).style.display='block';
 }
 
-function addEquipo(){
-equipos.push({id:equipos.length+1,nombre:eqNombre.value,escudo:eqEscudo.value,pts:0,gf:0,gc:0});
-save(); alert('Equipo agregado'); loadSelects();
+function openTorneo(){
+go('menuTorneo');
 }
 
-function loadSelects(){
-local.innerHTML=''; visitante.innerHTML='';
-equipos.forEach((e,i)=>{
-local.innerHTML+=`<option value="${i}">${e.nombre}</option>`;
-visitante.innerHTML+=`<option value="${i}">${e.nombre}</option>`;
-});
+function openSection(type){
+const content = {
+posiciones:'<h3>Tabla de posiciones</h3><p>Contenido a cargar</p>',
+fixture:'<h3>Fixture</h3><p>Contenido a cargar</p>',
+resultados:'<h3>Resultados</h3><p>Contenido a cargar</p>',
+sanciones:'<h3>Sanciones</h3><p>Sin sanciones</p>',
+goleadores:'<h3>Goleadores</h3><p>Contenido a cargar</p>',
+valla:'<h3>Valla menos vencida</h3><p>Contenido a cargar</p>'
+};
+document.getElementById('contentBox').innerHTML = content[type];
+go('contenido');
 }
-
-function addPartido(){
-let f=parseInt(fFecha.value);
-let l=parseInt(local.value);
-let v=parseInt(visitante.value);
-let glv=parseInt(gl.value);
-let gvv=parseInt(gv.value);
-
-equipos[l].gf+=glv; equipos[l].gc+=gvv;
-equipos[v].gf+=gvv; equipos[v].gc+=glv;
-
-if(glv>gvv) equipos[l].pts+=3;
-else if(gvv>glv) equipos[v].pts+=3;
-else {equipos[l].pts+=1; equipos[v].pts+=1;}
-
-let lista=goles.value.split(',');
-lista.forEach(t=>{
-let [nom,cant]=t.trim().split(' ');
-let g=goleadores.find(x=>x.nombre===nom);
-if(g) g.goles+=parseInt(cant);
-else goleadores.push({nombre:nom,goles:parseInt(cant)});
-});
-
-partidos.push({fecha:f,l,v,gl:glv,gv:gvv});
-save(); alert('Partido cargado');
-}
-
-function verPosiciones(){
-let ord=[...equipos].sort((a,b)=>b.pts-a.pts||(b.gf-b.gc)-(a.gf-a.gc));
-let h='<table class="tabla"><tr><th>#</th><th>Equipo</th><th>PTS</th></tr>';
-ord.forEach((e,i)=>{
-h+=`<tr><td>${i+1}</td><td class="fila"><img src="escudos/${e.escudo}">${e.nombre}</td><td>${e.pts}</td></tr>`;
-});
-h+='</table>'; content.innerHTML=h; go('contenido');
-}
-
-function verFixture(){
-let h='';
-let fechas=[...new Set(partidos.map(p=>p.fecha))].sort((a,b)=>a-b);
-fechas.forEach(f=>{
-h+=`<h4>Fecha ${f}</h4>`;
-partidos.filter(p=>p.fecha===f).forEach(p=>{
-h+=`<div class="partido">
-<div class="fila"><img src="escudos/${equipos[p.l].escudo}">${equipos[p.l].nombre}</div>
-<strong>${p.gl} - ${p.gv}</strong>
-<div class="fila"><img src="escudos/${equipos[p.v].escudo}">${equipos[p.v].nombre}</div>
-</div>`;
-});
-});
-content.innerHTML=h; go('contenido');
-}
-
-function verGoleadores(){
-let ord=[...goleadores].sort((a,b)=>b.goles-a.goles);
-let h='<table class="tabla"><tr><th>Jugador</th><th>Goles</th></tr>';
-ord.forEach(g=>h+=`<tr><td>${g.nombre}</td><td>${g.goles}</td></tr>`);
-h+='</table>'; content.innerHTML=h; go('contenido');
-}
-
-loadSelects();
 </script>
 
 </body>
