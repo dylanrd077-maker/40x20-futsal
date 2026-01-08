@@ -1,3 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>40×20 Futsal</title>
+
+<style>
+body {
+margin: 0;
+font-family: system-ui, Arial, sans-serif;
+background: #f1f3f6;
+}
+
+.app {
+max-width: 480px;
+margin: auto;
+}
+
+/* HEADER */
+header {
+background: linear-gradient(135deg, #0d47a1, #1565c0);
+color: white;
+text-align: center;
+padding: 30px 20px;
+}
+
+/* Logo PNG Transparente */
+.logo-header {
+width: 120px; /* Tamaño ideal para que se vea el detalle */
+height: auto;
+margin-bottom: 10px;
+/* Esto ayuda a que el logo blanco resalte más */
+filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));
+}
+
+header h1 {
+margin: 0;
+font-size: 24px;
+font-weight: 700;
+text-transform: uppercase;
+}
+
+header span {
+font-size: 14px;
+opacity: 0.9;
+display: block;
+margin-top: 5px;
+}
+
+/* SECCIONES */
+.section {
+background: white;
+margin: 16px;
+padding: 16px;
+border-radius: 14px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.section h2 {
+margin-top: 0;
+font-size: 20px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+h3 {
+font-size: 16px;
+color: #333;
+margin-bottom: 10px;
+border-left: 4px solid #0d47a1;
+padding-left: 8px;
+}
+
+/* LISTAS */
+.list {
+list-style: none;
+padding: 0;
+margin: 0;
+}
+
+.list li {
+display: grid;
+grid-template-columns: 40px 1fr auto;
+gap: 10px;
+align-items: center;
+padding: 10px 0;
+border-bottom: 1px solid #eee;
+font-size: 14px;
+}
+
+.list li:last-child {
+border-bottom: none;
+}
+
+.simple li {
+grid-template-columns: 1fr;
+padding: 12px 0;
+}
+
+/* ESCUDOS GENÉRICOS */
+.escudo {
+width: 36px;
+height: 36px;
+border-radius: 50%;
+background: #e0e0e0;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 12px;
+font-weight: bold;
+color: #555;
+}
+
+/* TEXTO Y ESTILOS */
+.nombre {
+font-weight: 600;
+}
+
+.equipo {
+font-size: 12px;
+color: #666;
+}
+
+.numero {
+background: #0d47a1;
+color: white;
+padding: 4px 10px;
+border-radius: 12px;
+font-size: 12px;
+font-weight: bold;
 }
 </style>
 </head>
@@ -7,18 +139,60 @@
 <div class="app">
 
 <header>
-<div class="logo-container">
-<img src="IMG_3936.png" alt="40x20 Futsal">
-</div>
+<img src="IMG_3936.png" alt="40x20 Futsal Logo" class="logo-header">
 <h1>40×20 Futsal</h1>
 <span>Posadas, Misiones</span>
 </header>
 
 <div class="section">
 <h2>🏆 LPF</h2>
+
 <h3>📅 Partidos</h3>
 <ul class="list simple">
 <li>Equipo A 3 – 2 Equipo B</li>
+<li>Equipo C 1 – 1 Equipo D</li>
+</ul>
+
+<h3>👥 Equipos</h3>
+<ul class="list">
+<li>
+<div class="escudo">A</div>
+<span class="nombre">Equipo A</span>
+<span></span>
+</li>
+<li>
+<div class="escudo">B</div>
+<span class="nombre">Equipo B</span>
+<span></span>
+</li>
+</ul>
+
+<h3>⚽ Goleadores</h3>
+<ul class="list">
+<li>
+<div class="escudo">A</div>
+<span>
+<div class="nombre">Jugador 1</div>
+<div class="equipo">Equipo A</div>
+</span>
+<span class="numero">5</span>
+</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🏆 A.Po.Fu.Sa</h2>
+<h3>📅 Partidos</h3>
+<ul class="list simple">
+<li>Equipo E 2 – 2 Equipo F</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🏆 La AMBA</h2>
+<h3>📅 Partidos</h3>
+<ul class="list simple">
+<li>Equipo X 1 – 0 Equipo Y</li>
 </ul>
 </div>
 
