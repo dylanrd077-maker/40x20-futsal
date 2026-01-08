@@ -1,3 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>40×20 Futsal</title>
+<style>
+body { margin: 0; font-family: sans-serif; background: #f1f3f6; color: #333; }
+.app { max-width: 480px; margin: auto; min-height: 100vh; }
+
+/* HEADER */
+header {
+background: linear-gradient(135deg, #0d47a1, #1565c0);
+padding: 30px 15px;
+text-align: center;
+color: white;
+}
+.logo-principal {
+width: 100%;
+max-width: 250px;
+height: auto;
+border-radius: 10px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.slogan { display: block; margin-top: 15px; font-style: italic; opacity: 0.9; }
+
+/* PANTALLAS */
+.screen { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
+.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* BOTONES */
+.btn {
+display: flex; align-items: center; width: 100%; padding: 18px; margin-bottom: 12px;
+background: white; border: none; border-radius: 15px;
+font-size: 16px; font-weight: bold; color: #0d47a1; cursor: pointer;
+box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-decoration: none; box-sizing: border-box;
+}
+.btn span { margin-right: 15px; font-size: 20px; }
+.btn-back { background: #546e7a; color: white; justify-content: center; }
+
+/* TABLAS */
+.card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th { text-align: left; background: #e3f2fd; padding: 10px; border-radius: 5px; }
+td { padding: 10px; border-bottom: 1px solid #eee; }
+</style>
+</head>
+<body>
+
+<div class="app">
+<header>
+<img src="logo.jpg.jpg" alt="40x20 Futsal" class="logo-principal">
+<span class="slogan">FUTSAL: la pasión que nos une</span>
+</header>
+
+<div id="scr-main" class="screen active">
+<button class="btn" onclick="nav('scr-torneos')"><span>🏆</span> TORNEOS</button>
+<button class="btn" onclick="nav('scr-noticias')"><span>📰</span> NOTICIAS</button>
+<a href="https://www.instagram.com/_40x20futsal" target="_blank" class="btn"><span>📸</span> INSTAGRAM</a>
+<button class="btn" onclick="nav('scr-contacto')"><span>📞</span> CONTACTO</button>
+</div>
+
+<div id="scr-torneos" class="screen">
+<button class="btn" onclick="openTorneo('LPF')">LPF</button>
+<button class="btn" onclick="openTorneo('APOFUSA')">A.Po.Fu.Sa</button>
+<button class="btn" onclick="openTorneo('LAAMBA')">La AMBA</button>
+<button class="btn btn-back" onclick="nav('scr-main')">Volver</button>
+</div>
+
+<div id="scr-opciones" class="screen">
+<h2 id="titulo-torneo" style="color:#0d47a1">Torneo</h2>
+<button class="btn" onclick="showData('Tabla')">📊 Tabla de Posiciones</button>
+<button class="btn" onclick="showData('Goleadores')">⚽ Goleadores</button>
+<button class="btn" onclick="showData('Fixture')">📅 Fixture</button>
+<button class="btn btn-back" onclick="nav('scr-torneos')">Volver</button>
+</div>
+
+<div id="scr-data" class="screen">
+<div class="card">
+<h2 id="data-titulo" style="margin:0; color:#0d47a1">Info</h2>
+<div id="data-content"></div>
+</div>
+<button class="btn btn-back" onclick="nav('scr-opciones')" style="margin-top:20px">Volver</button>
+</div>
+
+<div id="scr-noticias" class="screen">
+<div class="card"><h2>Noticias</h2><p>Actualizaciones próximamente.</p></div>
+<button class="btn btn-back" onclick="nav('scr-main')">Volver</button>
+</div>
+
+<div id="scr-contacto" class="screen">
+<div class="card">
+<h2>Contacto</h2>
+<a href="https://wa.me/543764532126" class="btn" style="background:#25d366; color:white; justify-content:center;">WhatsApp</a>
+</div>
+<button class="btn btn-back" onclick="nav('scr-main')">Volver</button>
+</div>
+</div>
+
+<script>
+let torneoActual = "";
+
+function nav(id) {
+document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+document.getElementById(id).style.display = 'block';
+window.scrollTo(0,0);
 }
 
 function openTorneo(nombre) {
@@ -13,7 +120,7 @@ document.getElementById('data-titulo').innerText = tipo + " - " + torneoActual;
 if(tipo === 'Tabla') {
 container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr><tr><td>1</td><td>Telecentro Tacuarí</td><td>15</td></tr><tr><td>2</td><td>Plastimi</td><td>12</td></tr></table>`;
 } else {
-container.innerHTML = `<p style="text-align:center; padding:20px;">Cargando ${tipo} de ${torneoActual}...</p>`;
+container.innerHTML = `<p style="padding:20px; text-align:center;">Cargando ${tipo}...</p>`;
 }
 nav('scr-data');
 }
