@@ -8,7 +8,7 @@
 body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f3f6; color: #333; overflow-x: hidden; }
 .app { max-width: 480px; margin: auto; min-height: 100vh; background: #f1f3f6; }
 
-/* HEADER MEJORADO */
+/* HEADER */
 header {
 background: linear-gradient(135deg, #0d47a1, #1565c0);
 color: white;
@@ -19,23 +19,18 @@ flex-direction: column;
 align-items: center;
 }
 
-/* Contenedor para asegurar que la imagen se vea */
 .logo-wrapper {
-width: 200px;
-height: 200px;
-display: flex;
-align-items: center;
-justify-content: center;
+width: 220px;
+height: auto;
 margin-bottom: 10px;
 }
 
 .logo-principal {
-max-width: 100%;
-max-height: 100%;
+width: 100%;
+height: auto;
 display: block;
-object-fit: contain;
-filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3));
-border-radius: 12px;
+border-radius: 15px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .slogan {
@@ -43,11 +38,11 @@ display: block;
 font-size: 16px;
 font-style: italic;
 opacity: 0.95;
-margin-top: 10px;
+margin-top: 15px;
 font-weight: 300;
 }
 
-/* PANTALLAS */
+/* SISTEMA DE PANTALLAS */
 .screen { display: none; padding: 16px; animation: fadeIn 0.3s ease; }
 .active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -56,16 +51,16 @@ font-weight: 300;
 .btn {
 display: flex; align-items: center; width: 100%; padding: 18px; margin-bottom: 15px;
 background: white; border: none; border-radius: 16px;
-text-align: left; font-size: 16px; font-weight: bold; cursor: pointer;
+text-align: left; font-size: 17px; font-weight: bold; cursor: pointer;
 box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #0d47a1;
 box-sizing: border-box;
 text-decoration: none;
 }
-.btn span { margin-right: 15px; font-size: 22px; }
+.btn span { margin-right: 15px; font-size: 24px; }
 .btn:active { background: #e3f2fd; transform: scale(0.98); }
 .btn-back { background: #455a64; color: white; justify-content: center; margin-top: 10px; }
 
-/* TABLAS */
+/* CONTENIDO */
 .card { background: white; padding: 20px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 15px; }
 h2 { margin-top: 0; color: #0d47a1; font-size: 22px; border-bottom: 2px solid #f1f3f6; padding-bottom: 10px; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -78,7 +73,7 @@ td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
 <div class="app">
 <header>
 <div class="logo-wrapper">
-<img src="40x20.jpg" alt="Logo 40x20" class="logo-principal">
+<img src="logo.jpg.jpg" alt="40x20 Futsal" class="logo-principal">
 </div>
 <span class="slogan">FUTSAL: la pasión que nos une</span>
 </header>
@@ -97,17 +92,17 @@ td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
 <button class="btn" onclick="openTorneo('LPF')">LPF</button>
 <button class="btn" onclick="openTorneo('APOFUSA')">A.Po.Fu.Sa</button>
 <button class="btn" onclick="openTorneo('LAAMBA')">La AMBA</button>
-<button class="btn btn-back" onclick="nav('scr-main')">Volver al Inicio</button>
+<button class="btn btn-back" onclick="nav('scr-main')">Volver</button>
 </div>
 
 <div id="scr-opciones" class="screen">
-<h2 id="titulo-torneo">Torneo</h2>
+<h2 id="titulo-torneo">Opciones</h2>
 <button class="btn" onclick="showData('Tabla')">📊 Tabla de Posiciones</button>
 <button class="btn" onclick="showData('Goleadores')">⚽ Goleadores</button>
 <button class="btn" onclick="showData('Valla')">🧤 Valla menos vencida</button>
 <button class="btn" onclick="showData('Sanciones')">🚫 Sanciones</button>
 <button class="btn" onclick="showData('Fixture')">📅 Fixture y Resultados</button>
-<button class="btn btn-back" onclick="nav('scr-torneos')">Volver a Ligas</button>
+<button class="btn btn-back" onclick="nav('scr-torneos')">Volver</button>
 </div>
 
 <div id="scr-data" class="screen">
@@ -121,7 +116,7 @@ td { padding: 10px; border-bottom: 1px solid #f1f1f1; }
 <div id="scr-noticias" class="screen">
 <div class="card">
 <h2>Noticias</h2>
-<p>Bienvenido a la plataforma oficial de 40x20 Futsal Posadas.</p>
+<p>Actualizaciones en breve...</p>
 </div>
 <button class="btn btn-back" onclick="nav('scr-main')">Volver</button>
 </div>
@@ -138,7 +133,7 @@ WhatsApp Directo
 </div>
 
 <script>
-let torneoSeleccionado = "";
+let torneoActual = "";
 
 function nav(id) {
 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -147,19 +142,19 @@ window.scrollTo(0, 0);
 }
 
 function openTorneo(nombre) {
-torneoSeleccionado = nombre;
-document.getElementById('titulo-torneo').innerText = "Opciones " + nombre;
+torneoActual = nombre;
+document.getElementById('titulo-torneo').innerText = nombre;
 nav('scr-opciones');
 }
 
 function showData(tipo) {
 const container = document.getElementById('data-content');
-document.getElementById('data-titulo').innerText = tipo + " - " + torneoSeleccionado;
+document.getElementById('data-titulo').innerText = tipo + " " + torneoActual;
 
 if(tipo === 'Tabla') {
-container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr><tr><td>1</td><td>Telecentro Tacuarí</td><td>15</td></tr><tr><td>2</td><td>Plastimi</td><td>12</td></tr></table>`;
+container.innerHTML = `<table><tr><th>Pos</th><th>Equipo</th><th>Pts</th></tr><tr><td>1</td><td>Telecentro</td><td>15</td></tr><tr><td>2</td><td>Plastimi</td><td>12</td></tr></table>`;
 } else {
-container.innerHTML = `<p style="text-align:center; padding:20px;">Próximamente datos de ${tipo}...</p>`;
+container.innerHTML = `<p style="text-align:center; padding:20px;">Cargando ${tipo}...</p>`;
 }
 nav('scr-data');
 }
