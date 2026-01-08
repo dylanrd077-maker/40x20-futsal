@@ -2,53 +2,58 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<title>40x20 Futsal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>40x20 Fútbol Sala</title>
 
 <style>
 body {
 margin: 0;
 font-family: Arial, sans-serif;
-background: #0b1d3a;
-color: white;
+background: #0b1c2d;
+color: #ffffff;
 }
 
 header {
 text-align: center;
 padding: 20px;
-background: #08162b;
+background: #081420;
 }
 
 header img {
-max-width: 200px;
+width: 220px;
+max-width: 80%;
+display: block;
+margin: 0 auto 10px;
 }
 
 nav {
 display: flex;
-flex-wrap: wrap;
 justify-content: center;
-background: #102a52;
+gap: 10px;
+flex-wrap: wrap;
+background: #10263f;
+padding: 10px;
 }
 
 nav a {
-padding: 12px 16px;
 color: white;
 text-decoration: none;
 font-weight: bold;
-}
-
-nav a:hover {
-background: #1a3f7a;
+padding: 6px 10px;
+border-radius: 4px;
+background: #1c3c66;
 }
 
 section {
-padding: 20px;
-border-bottom: 1px solid #1a3f7a;
+padding: 25px;
+max-width: 1000px;
+margin: auto;
 }
 
 h2 {
-color: #ff4d4d;
-margin-top: 0;
+border-bottom: 2px solid #1c3c66;
+padding-bottom: 5px;
+margin-bottom: 15px;
 }
 
 table {
@@ -57,46 +62,40 @@ border-collapse: collapse;
 margin-top: 10px;
 }
 
-table, th, td {
-border: 1px solid #355c9a;
-}
-
-th, td {
+table th, table td {
+border: 1px solid #1c3c66;
 padding: 8px;
 text-align: center;
 }
 
-th {
-background: #1a3f7a;
-}
-
-.redes a {
-display: inline-block;
-margin: 10px;
-padding: 10px 16px;
-background: #1a3f7a;
-color: white;
-text-decoration: none;
-border-radius: 5px;
-font-weight: bold;
-}
-
-.redes a:hover {
-background: #ff4d4d;
+table th {
+background: #1c3c66;
 }
 
 footer {
+background: #081420;
 text-align: center;
-padding: 15px;
-background: #08162b;
-font-size: 14px;
+padding: 20px;
+margin-top: 30px;
+}
+
+.contacto a {
+display: block;
+color: #00ffcc;
+text-decoration: none;
+margin: 5px 0;
+font-weight: bold;
 }
 </style>
 </head>
+
 <body>
 
 <header>
-<img src="logo.jpg.PNG" alt="40x20 Fútbol Sala">
+<!-- LOGO -->
+<img src="IMG_3936.png" alt="40x20 Futsal Logo">
+<h1>40x20 Futsal</h1>
+<p>Liga de Fútbol Sala</p>
 </header>
 
 <nav>
@@ -109,7 +108,7 @@ font-size: 14px;
 </nav>
 
 <section id="torneos">
-<h2>Torneos</h2>
+<h2>🏆 Torneos</h2>
 <ul>
 <li>Apertura 2026</li>
 <li>Clausura 2026</li>
@@ -118,7 +117,7 @@ font-size: 14px;
 </section>
 
 <section id="tabla">
-<h2>Tabla de Posiciones</h2>
+<h2>📊 Tabla de posiciones</h2>
 <table>
 <tr>
 <th>Equipo</th>
@@ -133,21 +132,22 @@ font-size: 14px;
 <tr>
 <td>Equipo B</td>
 <td>5</td>
-<td>9</td>
+<td>10</td>
 </tr>
 </table>
 </section>
 
 <section id="fixture">
-<h2>Fixture</h2>
+<h2>📅 Fixture</h2>
 <ul>
 <li>Equipo A vs Equipo B</li>
 <li>Equipo C vs Equipo D</li>
+<li>Equipo E vs Equipo F</li>
 </ul>
 </section>
 
 <section id="goleadores">
-<h2>Goleadores</h2>
+<h2>⚽ Goleadores</h2>
 <table>
 <tr>
 <th>Jugador</th>
@@ -157,31 +157,33 @@ font-size: 14px;
 <tr>
 <td>Juan Pérez</td>
 <td>Equipo A</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Lucas Gómez</td>
+<td>Equipo B</td>
 <td>6</td>
 </tr>
 </table>
 </section>
 
 <section id="sanciones">
-<h2>Sanciones</h2>
+<h2>🚫 Sanciones</h2>
 <ul>
 <li>Jugador X – 1 fecha</li>
 <li>Jugador Y – 2 fechas</li>
 </ul>
 </section>
 
-<section id="contacto">
-<h2>Contacto</h2>
-
-<div class="redes">
-<a href="https://instagram.com/TU_USUARIO" target="_blank">Instagram</a>
-<a href="https://wa.me/5491112345678" target="_blank">WhatsApp</a>
-<a href="mailto:contacto@40x20futsal.com">Email</a>
-</div>
+<section id="contacto" class="contacto">
+<h2>📲 Contacto</h2>
+<a href="https://www.instagram.com/" target="_blank">📸 Instagram</a>
+<a href="https://wa.me/5490000000000" target="_blank">💬 WhatsApp</a>
+<a href="mailto:contacto@40x20futsal.com">✉️ Email</a>
 </section>
 
 <footer>
-© 40x20 Fútbol Sala
+<p>© 2026 – 40x20 Futsal</p>
 </footer>
 
 </body>
