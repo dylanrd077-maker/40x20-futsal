@@ -2,163 +2,160 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>40x20 Futsal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <style>
-body{
-margin:0;
-background:#f2f4f8;
-font-family:system-ui, Arial;
-}
-
-header{
-background:#0b1f3a;
-color:#fff;
-text-align:center;
-padding:25px 15px;
-border-radius:0 0 25px 25px;
-}
-
-header img{
-width:90px;
-margin-bottom:10px;
-}
-
-header h1{
-margin:0;
-font-size:22px;
-}
-
-header p{
-margin-top:6px;
-font-size:14px;
-opacity:.9;
-}
-
-.container{
-padding:15px;
-}
-
-.card{
-background:#fff;
-border-radius:18px;
-padding:18px;
-margin-bottom:15px;
-box-shadow:0 10px 20px rgba(0,0,0,.08);
-cursor:pointer;
-}
-
-.card h2{
-margin:0;
-font-size:18px;
-}
-
-.hidden{
-display:none;
-}
-
-.back{
-font-weight:600;
-margin-bottom:15px;
-cursor:pointer;
-}
-
-.item{
-background:#fff;
-padding:15px;
-border-radius:15px;
-margin-bottom:10px;
-box-shadow:0 5px 10px rgba(0,0,0,.05);
-}
-
-/* Sponsors */
-.carousel{
-background:#fff;
-border-radius:18px;
-padding:15px 0;
-overflow:hidden;
-}
-
-.track{
-display:flex;
-width:max-content;
-animation:scroll 20s linear infinite;
-}
-
-.track img{
-height:55px;
-margin:0 25px;
-}
-
-@keyframes scroll{
-from{transform:translateX(0)}
-to{transform:translateX(-50%)}
-}
+*{box-sizing:border-box;font-family:system-ui}
+body{margin:0;background:#f1f3f6}
+header{background:#071b33;padding:25px;text-align:center}
+header img{width:140px}
+header p{color:#dbe4f0;margin-top:8px;font-style:italic}
+.container{padding:18px}
+.btn{background:#fff;padding:18px;border-radius:16px;margin-bottom:14px;
+font-weight:600;box-shadow:0 8px 20px rgba(0,0,0,.1);cursor:pointer}
+.btn-dark{background:#071b33;color:#fff}
+.view{display:none}
+.carousel{display:flex;gap:14px;overflow-x:auto}
+.item{min-width:220px;background:#fff;border-radius:16px;padding:14px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;text-align:center;border-bottom:1px solid #ddd}
 </style>
 </head>
 
 <body>
 
 <header>
-<img src="IMG_3936.png" alt="40x20 Futsal">
-<h1>40x20 FUTSAL</h1>
+<img src="IMG_3936.png">
 <p>FUTSAL: la pasión que nos une.</p>
 </header>
 
 <div class="container">
 
+<!-- HOME -->
 <div id="home">
-<div class="card" onclick="openTorneos()"><h2>Torneos</h2></div>
-<div class="card"><h2>Noticias</h2></div>
-<div class="card"><h2>Sponsors</h2></div>
+<div class="btn btn-dark" onclick="go('torneos')">TORNEOS</div>
+
+<h3>NOTICIAS</h3>
+<div class="carousel" id="news"></div>
+
+<h3>SPONSORS</h3>
+<div class="carousel" id="sponsors"></div>
+
+<div class="btn" onclick="go('login')">PANEL ADMIN / ARBITROS</div>
+
+<a class="btn" href="https://www.instagram.com/_40x20futsal" target="_blank">
+Instagram
+</a>
 </div>
 
-<div id="torneos" class="hidden">
-<div class="back" onclick="goHome()">Volver</div>
-<div class="item" onclick="openTorneo('LPF')">LPF</div>
-<div class="item" onclick="openTorneo('APOFUSA')">APOFUSA</div>
-<div class="item" onclick="openTorneo('LAAMBA')">LAAMBA</div>
+<!-- TORNEOS -->
+<div id="torneos" class="view">
+<div class="btn btn-dark" onclick="back()">← Volver</div>
+<div class="btn" onclick="openTorneo('LPF')">LPF</div>
+<div class="btn" onclick="openTorneo('LaAMBA')">LaAMBA</div>
+<div class="btn" onclick="openTorneo('APOFUSA')">APoFuSa</div>
 </div>
 
-<div id="torneoDetalle" class="hidden">
-<div class="back" onclick="openTorneos()">Volver</div>
-<div class="item">Tabla de posiciones</div>
-<div class="item">Fixture</div>
-<div class="item">Resultados</div>
-<div class="item">Goleadores</div>
-<div class="item">Valla menos vencida</div>
-<div class="item">Sanciones</div>
+<!-- TORNEO -->
+<div id="torneo" class="view">
+<div class="btn btn-dark" onclick="back()">← Volver</div>
+<h3 id="torneoTitulo"></h3>
+
+<div class="btn" onclick="ver('tabla')">Tabla de posiciones</div>
+<div class="btn" onclick="ver('goleadores')">Goleadores</div>
+<div class="btn" onclick="ver('fixture')">Fixture</div>
+
+<div id="contenido"></div>
 </div>
 
-<div class="carousel">
-<div class="track">
-<img src="IMG_3936.png">
-<img src="IMG_3936.png">
-<img src="IMG_3936.png">
-<img src="IMG_3936.png">
+<!-- LOGIN -->
+<div id="login" class="view">
+<div class="btn btn-dark" onclick="back()">← Volver</div>
+<input id="email" placeholder="Email" class="btn">
+<input id="pass" type="password" placeholder="Clave" class="btn">
+<div class="btn btn-dark" onclick="login()">Ingresar</div>
 </div>
+
+<!-- ADMIN -->
+<div id="admin" class="view">
+<h3>Panel Admin</h3>
+<div class="btn" onclick="addEquipo()">Agregar equipo</div>
+<div class="btn" onclick="logout()">Salir</div>
 </div>
 
 </div>
 
 <script>
-function openTorneos(){
-home.classList.add("hidden");
-torneos.classList.remove("hidden");
+/* FIREBASE */
+firebase.initializeApp({
+apiKey: "AIzaSyBiUJW7PVnSbWQVs0RpBb3mNdUB-QEjM9o",
+authDomain: "x20-futsal-afb4b.firebaseapp.com",
+projectId: "x20-futsal-afb4b"
+});
+const auth=firebase.auth();
+const db=firebase.firestore();
+
+/* NAVEGACION */
+let stack=['home'];
+function go(id){
+document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none');
+document.getElementById(id).style.display='block';
+stack.push(id);
+}
+function back(){
+stack.pop();
+go(stack[stack.length-1]);
 }
 
-function openTorneo(){
-torneos.classList.add("hidden");
-torneoDetalle.classList.remove("hidden");
+/* TORNEOS */
+let torneoActual='';
+function openTorneo(t){
+torneoActual=t;
+document.getElementById('torneoTitulo').innerText=t;
+go('torneo');
 }
 
-function goHome(){
-torneos.classList.add("hidden");
-torneoDetalle.classList.add("hidden");
-home.classList.remove("hidden");
+/* LOGIN */
+function login(){
+auth.signInWithEmailAndPassword(
+email.value,pass.value
+).then(()=>go('admin'))
+.catch(e=>alert(e.message));
 }
+function logout(){auth.signOut();go('home')}
+
+/* ADMIN */
+function addEquipo(){
+const nombre=prompt("Nombre del equipo");
+const torneo=prompt("LPF / LaAMBA / APOFUSA");
+db.collection("equipos").add({nombre,torneo});
+alert("Equipo cargado");
+}
+
+/* VISTAS */
+function ver(tipo){
+const c=document.getElementById('contenido');
+if(tipo==='tabla'){
+c.innerHTML='<h3>Tabla</h3><p>Automática con Firebase</p>';
+}
+if(tipo==='goleadores'){
+c.innerHTML='<h3>Goleadores</h3>';
+}
+if(tipo==='fixture'){
+c.innerHTML='<h3>Fixture</h3>';
+}
+}
+
+/* CARRUSELES DEMO */
+news.innerHTML='<div class="item">Noticia 1</div><div class="item">Noticia 2</div>';
+sponsors.innerHTML='<div class="item">Sponsor</div>';
+
 </script>
-
 </body>
 </html>
