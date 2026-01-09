@@ -6,25 +6,58 @@
 <title>40x20 Futsal</title>
 
 <style>
-*{box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
-body{margin:0;background:#f1f3f6;color:#111}
-header{background:#071b33;padding:26px 20px;text-align:center}
+*{box-sizing:border-box;font-family:system-ui}
+body{margin:0;background:#f1f3f6}
+header{background:#071b33;padding:24px;text-align:center}
 header img{width:140px}
-header p{margin-top:10px;color:#dbe4f0;font-style:italic}
+header p{color:#cfd8e6;font-style:italic;margin-top:8px}
+
 .container{padding:20px}
 .view{display:none}
-.btn{background:#fff;border-radius:16px;padding:18px;margin-bottom:14px;font-size:16px;font-weight:600;box-shadow:0 8px 20px rgba(0,0,0,.08);cursor:pointer}
+
+.btn{
+background:#fff;
+padding:16px;
+border-radius:16px;
+margin-bottom:12px;
+font-weight:600;
+box-shadow:0 6px 18px rgba(0,0,0,.1);
+cursor:pointer;
+}
+
 .btn-dark{background:#071b33;color:#fff}
-.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 6px 16px rgba(0,0,0,.08)}
-h3{margin:18px 0 12px}
-input,select,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin-bottom:10px}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px;text-align:center;font-size:14px}
-th{background:#e8eef7}
-.team{display:flex;align-items:center;gap:8px}
-.team img{width:22px;height:22px;object-fit:contain}
-.carousel{display:flex;gap:12px;overflow-x:auto}
-.carousel .card{min-width:220px}
+
+.card{
+background:#fff;
+padding:16px;
+border-radius:16px;
+box-shadow:0 6px 18px rgba(0,0,0,.1);
+margin-bottom:14px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:1px solid #ccc;
+margin-bottom:10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:14px;
+}
+th,td{padding:6px;text-align:center}
+th{background:#e8eef6}
+
+.team{
+display:flex;
+align-items:center;
+gap:6px;
+justify-content:left;
+}
+.team img{width:22px;height:22px;border-radius:50%}
 </style>
 </head>
 
@@ -40,225 +73,215 @@ th{background:#e8eef7}
 <!-- HOME -->
 <div id="home">
 <div class="btn btn-dark" onclick="go('torneos')">TORNEOS</div>
-
-<h3>NOTICIAS</h3>
-<div class="carousel" id="newsList"></div>
-
-<h3>SPONSORS</h3>
-<div class="carousel" id="sponsorList"></div>
-
-<div class="btn" onclick="go('login')">PANEL ADMIN</div>
+<div class="btn" onclick="go('adminLogin')">PANEL ADMIN</div>
 </div>
 
 <!-- TORNEOS -->
 <div id="torneos" class="view">
 <div class="btn btn-dark" onclick="back()">← Volver</div>
-<div class="btn" onclick="selectTorneo('LPF')">LPF</div>
-<div class="btn" onclick="selectTorneo('LAAMBA')">LAAMBA</div>
-<div class="btn" onclick="selectTorneo('APOFUSA')">A.Po.Fu.Sa</div>
+<div class="btn" onclick="openTorneo('LPF')">LPF</div>
+<div class="btn" onclick="openTorneo('LAAMBA')">LAAMBA</div>
+<div class="btn" onclick="openTorneo('APOFUSA')">A.Po.Fu.Sa</div>
 </div>
 
-<!-- MENU -->
-<div id="menu" class="view">
+<!-- MENU TORNEO -->
+<div id="menuTorneo" class="view">
 <div class="btn btn-dark" onclick="back()">← Volver</div>
-<h3 id="titulo"></h3>
-<div class="btn" onclick="show('fixture')">Fixture</div>
-<div class="btn" onclick="show('tabla')">Tabla</div>
-<div class="btn" onclick="show('goleadores')">Goleadores</div>
+<div class="btn" onclick="showTabla()">Tabla de posiciones</div>
+<div class="btn" onclick="showFixture()">Fixture</div>
+<div class="btn" onclick="showGoleadores()">Goleadores</div>
 </div>
 
-<!-- FIXTURE -->
-<div id="fixture" class="view">
+<!-- CONTENIDO -->
+<div id="contenido" class="view">
 <div class="btn btn-dark" onclick="back()">← Volver</div>
-<div id="fixtureList"></div>
+<div id="content"></div>
 </div>
 
-<!-- TABLA -->
-<div id="tabla" class="view">
-<div class="btn btn-dark" onclick="back()">← Volver</div>
-<div id="tablaPos"></div>
-</div>
-
-<!-- GOLEADORES -->
-<div id="goleadores" class="view">
-<div class="btn btn-dark" onclick="back()">← Volver</div>
-<div id="tablaGol"></div>
-</div>
-
-<!-- LOGIN -->
-<div id="login" class="view">
-<div class="btn btn-dark" onclick="back()">← Volver</div>
-<input id="pass" type="password" placeholder="Contraseña admin">
-<div class="btn btn-dark" onclick="login()">Ingresar</div>
+<!-- LOGIN ADMIN -->
+<div id="adminLogin" class="view">
+<input type="password" id="adminPass" placeholder="Contraseña admin">
+<div class="btn btn-dark" onclick="login()">Entrar</div>
+<div class="btn" onclick="back()">Volver</div>
 </div>
 
 <!-- ADMIN -->
 <div id="admin" class="view">
 <div class="btn btn-dark" onclick="back()">← Volver</div>
 
-<select id="adminTorneo" onchange="setAdminTorneo()">
-<option value="">Elegir torneo</option>
-<option>LPF</option>
-<option>LAAMBA</option>
-<option>APOFUSA</option>
-</select>
-
-<div id="adminPanel" style="display:none">
-
-<h3>Equipos</h3>
+<div class="card">
+<h3>Agregar equipo</h3>
 <input id="teamName" placeholder="Nombre del equipo">
-<input id="teamFile" type="file" accept="image/*">
+<input type="file" id="teamLogo" accept="image/*">
 <div class="btn" onclick="addTeam()">Agregar equipo</div>
+</div>
 
-<h3>Partido</h3>
-<input id="fecha" placeholder="Fecha (ej: Fecha 1)">
+<div class="card">
+<h3>Agregar partido</h3>
 <select id="local"></select>
 <select id="visitante"></select>
-<input id="gL" type="number" placeholder="Goles local">
-<input id="gV" type="number" placeholder="Goles visitante">
-<input id="jugador" placeholder="Goleador">
-<select id="equipoGol"></select>
-<input id="golesJugador" type="number" placeholder="Goles">
-<div class="btn" onclick="addMatch()">Guardar partido</div>
-
-<h3>Noticias</h3>
-<textarea id="newsText" placeholder="Texto noticia"></textarea>
-<div class="btn" onclick="addNews()">Agregar noticia</div>
-
-<h3>Sponsor</h3>
-<input id="sponsorFile" type="file" accept="image/*">
-<div class="btn" onclick="addSponsor()">Agregar sponsor</div>
-
+<input type="number" id="gLocal" placeholder="Goles local">
+<input type="number" id="gVisita" placeholder="Goles visitante">
+<div class="btn" onclick="addMatch()">Guardar resultado</div>
 </div>
+
+<div class="card">
+<h3>Importar / Exportar</h3>
+<div class="btn" onclick="exportData()">Exportar datos</div>
+<input type="file" onchange="importData(event)">
+</div>
+
 </div>
 
 </div>
 
 <script>
 let history=['home']
-let torneo=''
-const PASS='admin123'
+let torneoActual=''
 
-const data=JSON.parse(localStorage.getItem('futsalFull'))||{
-teams:{LPF:[],LAAMBA:[],APOFUSA:[]},
-matches:{LPF:[],LAAMBA:[],APOFUSA:[]},
-goleadores:{LPF:[],LAAMBA:[],APOFUSA:[]},
-news:[],
-sponsors:[]
+let data=JSON.parse(localStorage.getItem('data')) || {
+equipos:[],
+partidos:[],
+goleadores:[]
 }
 
-function save(){localStorage.setItem('futsalFull',JSON.stringify(data))}
+function save(){localStorage.setItem('data',JSON.stringify(data))}
 
 function go(id){
-document.querySelectorAll('#home,.view').forEach(v=>v.style.display='none')
+document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none')
 document.getElementById(id).style.display='block'
 history.push(id)
-renderHome()
 }
+
 function back(){
 history.pop()
-go(history.pop())
+let last=history[history.length-1]
+document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none')
+document.getElementById(last).style.display='block'
 }
 
-function selectTorneo(t){
-torneo=t
-titulo.innerText=t
-go('menu')
+function openTorneo(t){torneoActual=t;go('menuTorneo')}
+
+/* TABLA */
+function showTabla(){
+let html=`<div class="card"><h3>Tabla de posiciones</h3>
+<table>
+<tr><th>Equipo</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr>`
+
+data.equipos.forEach(e=>{
+html+=`
+<tr>
+<td class="team"><img src="${e.logo}">${e.name}</td>
+<td>${e.pj}</td>
+<td>${e.gf}</td>
+<td>${e.gc}</td>
+<td>${e.gf-e.gc}</td>
+<td><b>${e.pts}</b></td>
+</tr>`
+})
+
+html+=</table></div>
+document.getElementById('content').innerHTML=html
+go('contenido')
 }
 
-function show(v){
-if(v==='fixture') renderFixture()
-if(v==='tabla') renderTabla()
-if(v==='goleadores') renderGoleadores()
-go(v)
+/* FIXTURE */
+function showFixture(){
+let html='<div class="card"><h3>Resultados</h3>'
+data.partidos.forEach(p=>{
+html+=<p>${p.local} ${p.gl} - ${p.gv} ${p.visita}</p>
+})
+html+='</div>'
+document.getElementById('content').innerHTML=html
+go('contenido')
 }
 
+/* GOLEADORES */
+function showGoleadores(){
+let html='<div class="card"><h3>Goleadores</h3>'
+data.goleadores.forEach(g=>{
+html+=<p>${g.nombre} (${g.goles})</p>
+})
+html+='</div>'
+document.getElementById('content').innerHTML=html
+go('contenido')
+}
+
+/* ADMIN */
 function login(){
-if(pass.value===PASS) go('admin')
-else alert('Contraseña incorrecta')
-}
-
-function setAdminTorneo(){
-torneo=adminTorneo.value
-adminPanel.style.display='block'
-renderSelects()
+if(document.getElementById('adminPass').value==='admin123'){
+loadTeamsSelect()
+go('admin')
+}else alert('Contraseña incorrecta')
 }
 
 function addTeam(){
-const file=teamFile.files[0]
-const r=new FileReader()
+let name=document.getElementById('teamName').value
+let file=document.getElementById('teamLogo').files[0]
+if(!name||!file){alert('Completá todo');return}
+let r=new FileReader()
 r.onload=e=>{
-data.teams[torneo].push({name:teamName.value,logo:e.target.result})
-save();renderSelects()
-teamName.value='';teamFile.value=''
+data.equipos.push({name,logo:e.target.result,pj:0,gf:0,gc:0,pts:0})
+save()
+loadTeamsSelect()
+alert('Equipo agregado')
 }
 r.readAsDataURL(file)
 }
 
-function renderSelects(){
-[local,visitante,equipoGol].forEach(s=>{
-s.innerHTML=''
-data.teams[torneo].forEach(t=>s.innerHTML+=`<option>${t.name}</option>`)
+function loadTeamsSelect(){
+let l=document.getElementById('local')
+let v=document.getElementById('visitante')
+l.innerHTML=v.innerHTML=''
+data.equipos.forEach(e=>{
+l.innerHTML+=<option>${e.name}</option>
+v.innerHTML+=<option>${e.name}</option>
 })
 }
 
 function addMatch(){
-data.matches[torneo].push({fecha:fecha.value,local:local.value,visitante:visitante.value,gL:+gL.value,gV:+gV.value})
-data.goleadores[torneo].push({jugador:jugador.value,equipo:equipoGol.value,goles:+golesJugador.value})
+let l=document.getElementById('local').value
+let v=document.getElementById('visitante').value
+let gl=parseInt(document.getElementById('gLocal').value)
+let gv=parseInt(document.getElementById('gVisita').value)
+
+if(l===v){alert('Equipos iguales');return}
+
+data.partidos.push({local:l,visita:v,gl,gv})
+
+let el=data.equipos.find(e=>e.name===l)
+let ev=data.equipos.find(e=>e.name===v)
+
+el.pj++; ev.pj++
+el.gf+=gl; el.gc+=gv
+ev.gf+=gv; ev.gc+=gl
+
+if(gl>gv) el.pts+=3
+else if(gv>gl) ev.pts+=3
+else{el.pts++;ev.pts++}
+
 save()
-alert('Cargado')
+alert('Resultado cargado')
 }
 
-function renderFixture(){
-fixtureList.innerHTML=''
-data.matches[torneo].forEach(m=>{
-fixtureList.innerHTML+=`<div class="card"><b>${m.fecha}</b><br>${m.local} ${m.gL} - ${m.gV} ${m.visitante}</div>`
-})
+function exportData(){
+let blob=new Blob([JSON.stringify(data)],{type:'application/json'})
+let a=document.createElement('a')
+a.href=URL.createObjectURL(blob)
+a.download='40x20-datos.json'
+a.click()
 }
 
-function renderTabla(){
-let t={}
-data.teams[torneo].forEach(e=>t[e.name]={pts:0})
-data.matches[torneo].forEach(m=>{
-if(m.gL>m.gV)t[m.local].pts+=3
-else if(m.gV>m.gL)t[m.visitante].pts+=3
-else{t[m.local].pts++;t[m.visitante].pts++}
-})
-let h='<table><tr><th>Equipo</th><th>Pts</th></tr>'
-Object.keys(t).sort((a,b)=>t[b].pts-t[a].pts).forEach(n=>{
-const logo=data.teams[torneo].find(e=>e.name===n)?.logo
-h+=`<tr><td class="team"><img src="${logo}">${n}</td><td>${t[n].pts}</td></tr>`
-})
-tablaPos.innerHTML=h+'</table>'
+function importData(e){
+let f=e.target.files[0]
+let r=new FileReader()
+r.onload=ev=>{
+data=JSON.parse(ev.target.result)
+save()
+alert('Datos importados')
 }
-
-function renderGoleadores(){
-let h='<table><tr><th>Jugador</th><th>Equipo</th><th>Goles</th></tr>'
-data.goleadores[torneo].forEach(g=>{
-h+=`<tr><td>${g.jugador}</td><td>${g.equipo}</td><td>${g.goles}</td></tr>`
-})
-tablaGol.innerHTML=h+'</table>'
+r.readAsText(f)
 }
-
-function addNews(){
-data.news.push(newsText.value)
-save();newsText.value='';renderHome()
-}
-
-function addSponsor(){
-const f=sponsorFile.files[0]
-const r=new FileReader()
-r.onload=e=>{data.sponsors.push(e.target.result);save();renderHome()}
-r.readAsDataURL(f)
-}
-
-function renderHome(){
-newsList.innerHTML=''
-data.news.forEach(n=>newsList.innerHTML+=`<div class="card">${n}</div>`)
-sponsorList.innerHTML=''
-data.sponsors.forEach(s=>sponsorList.innerHTML+=`<div class="card"><img src="${s}" style="width:100%"></div>`)
-}
-renderHome()
 </script>
 
 </body>
