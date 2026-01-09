@@ -6,63 +6,65 @@
 <title>40x20 Futsal</title>
 
 <style>
-:root{
---primary:#0b1f3a;
---secondary:#ffffff;
---bg:#f2f4f8;
---card:#ffffff;
+body{
+margin:0;
+background:#f2f4f8;
+font-family:system-ui, Arial;
 }
 
-*{box-sizing:border-box;font-family:system-ui,Arial}
-body{margin:0;background:var(--bg);color:#000}
-
 header{
-background:var(--primary);
+background:#0b1f3a;
 color:#fff;
-padding:20px;
 text-align:center;
+padding:25px 15px;
 border-radius:0 0 25px 25px;
 }
 
 header img{
-width:70px;
+width:90px;
 margin-bottom:10px;
 }
 
-header h1{margin:0;font-size:22px}
-header p{margin:5px 0 0;font-size:14px;opacity:.8}
+header h1{
+margin:0;
+font-size:22px;
+}
+
+header p{
+margin-top:6px;
+font-size:14px;
+opacity:.9;
+}
 
 .container{
 padding:15px;
 }
 
 .card{
-background:var(--card);
+background:#fff;
 border-radius:18px;
 padding:18px;
 margin-bottom:15px;
 box-shadow:0 10px 20px rgba(0,0,0,.08);
 cursor:pointer;
-transition:.2s;
 }
-
-.card:hover{transform:scale(1.02)}
 
 .card h2{
 margin:0;
 font-size:18px;
 }
 
-.hidden{display:none}
+.hidden{
+display:none;
+}
 
 .back{
-margin-bottom:15px;
-color:var(--primary);
 font-weight:600;
+margin-bottom:15px;
 cursor:pointer;
 }
 
-.list-item{
+.item{
 background:#fff;
 padding:15px;
 border-radius:15px;
@@ -70,11 +72,28 @@ margin-bottom:10px;
 box-shadow:0 5px 10px rgba(0,0,0,.05);
 }
 
-footer{
-text-align:center;
-padding:20px;
-font-size:13px;
-opacity:.6;
+/* Sponsors */
+.carousel{
+background:#fff;
+border-radius:18px;
+padding:15px 0;
+overflow:hidden;
+}
+
+.track{
+display:flex;
+width:max-content;
+animation:scroll 20s linear infinite;
+}
+
+.track img{
+height:55px;
+margin:0 25px;
+}
+
+@keyframes scroll{
+from{transform:translateX(0)}
+to{transform:translateX(-50%)}
 }
 </style>
 </head>
@@ -82,77 +101,62 @@ opacity:.6;
 <body>
 
 <header>
-<!-- TU LOGO -->
-<img src="logo.png" alt="40x20">
-<h1>40x20 Futsal</h1>
-<p>El futsal como se vive</p>
+<img src="IMG_3936.png" alt="40x20 Futsal">
+<h1>40x20 FUTSAL</h1>
+<p>FUTSAL: la pasión que nos une.</p>
 </header>
 
 <div class="container">
 
-<!-- HOME -->
 <div id="home">
-<div class="card" onclick="openTorneos()">
-<h2>🏆 Torneos</h2>
-</div>
-<div class="card">
-<h2>📰 Noticias</h2>
-</div>
-<div class="card">
-<h2>🤝 Sponsors</h2>
-</div>
+<div class="card" onclick="openTorneos()"><h2>Torneos</h2></div>
+<div class="card"><h2>Noticias</h2></div>
+<div class="card"><h2>Sponsors</h2></div>
 </div>
 
-<!-- TORNEOS -->
 <div id="torneos" class="hidden">
-<div class="back" onclick="goHome()">← Volver</div>
-<div class="card" onclick="openTorneo('LPF')"><h2>LPF</h2></div>
-<div class="card" onclick="openTorneo('Apofusa')"><h2>Apofusa</h2></div>
-<div class="card" onclick="openTorneo('Laamba')"><h2>Laamba</h2></div>
+<div class="back" onclick="goHome()">Volver</div>
+<div class="item" onclick="openTorneo('LPF')">LPF</div>
+<div class="item" onclick="openTorneo('APOFUSA')">APOFUSA</div>
+<div class="item" onclick="openTorneo('LAAMBA')">LAAMBA</div>
 </div>
 
-<!-- TORNEO DETALLE -->
 <div id="torneoDetalle" class="hidden">
-<div class="back" onclick="openTorneos()">← Torneos</div>
+<div class="back" onclick="openTorneos()">Volver</div>
+<div class="item">Tabla de posiciones</div>
+<div class="item">Fixture</div>
+<div class="item">Resultados</div>
+<div class="item">Goleadores</div>
+<div class="item">Valla menos vencida</div>
+<div class="item">Sanciones</div>
+</div>
 
-<div class="card"><h2>Tabla de posiciones</h2></div>
-<div class="card"><h2>Fixture</h2></div>
-<div class="card"><h2>Resultados</h2></div>
-<div class="card"><h2>Goleadores</h2></div>
-<div class="card"><h2>Valla menos vencida</h2></div>
-
-<div class="list-item">
-<strong>Sanciones</strong><br>
-Sin sanciones
+<div class="carousel">
+<div class="track">
+<img src="IMG_3936.png">
+<img src="IMG_3936.png">
+<img src="IMG_3936.png">
+<img src="IMG_3936.png">
 </div>
 </div>
 
 </div>
-
-<footer>
-© 40x20 Futsal
-</footer>
 
 <script>
-function hideAll(){
-home.classList.add("hidden");
-torneos.classList.add("hidden");
-torneoDetalle.classList.add("hidden");
-}
-
-function goHome(){
-hideAll();
-home.classList.remove("hidden");
-}
-
 function openTorneos(){
-hideAll();
+home.classList.add("hidden");
 torneos.classList.remove("hidden");
 }
 
-function openTorneo(nombre){
-hideAll();
+function openTorneo(){
+torneos.classList.add("hidden");
 torneoDetalle.classList.remove("hidden");
+}
+
+function goHome(){
+torneos.classList.add("hidden");
+torneoDetalle.classList.add("hidden");
+home.classList.remove("hidden");
 }
 </script>
 
