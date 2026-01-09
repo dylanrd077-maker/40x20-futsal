@@ -2,200 +2,138 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>40x20 Futsal</title>
+<title>40x20 Futsal – Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body{margin:0;font-family:system-ui;background:#f2f4f8}
-header{background:#071b33;text-align:center;padding:22px}
-header img{width:130px}
-header p{color:#cfd8ea;font-style:italic;margin-top:8px}
-section{display:none;padding:16px}
-.card{background:#fff;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 8px 22px rgba(0,0,0,.08)}
-button,input,select{width:100%;padding:12px;margin:6px 0;border-radius:12px;border:1px solid #ccc}
-button{background:#071b33;color:#fff;font-weight:600;border:none}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px;border-bottom:1px solid #eee;text-align:center}
-th{background:#f0f2f6}
-.partido{border-bottom:1px solid #eee;padding:10px 0}
-.small{font-size:13px;color:#555}
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background: #f2f2f2;
+}
+
+header {
+background: #0f172a;
+color: white;
+padding: 20px;
+text-align: center;
+font-size: 24px;
+font-weight: bold;
+}
+
+.login-container {
+max-width: 400px;
+margin: 60px auto;
+background: white;
+padding: 25px;
+border-radius: 10px;
+box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.login-container h3 {
+text-align: center;
+margin-bottom: 20px;
+}
+
+input {
+width: 100%;
+padding: 12px;
+margin-bottom: 15px;
+border-radius: 6px;
+border: 1px solid #ccc;
+font-size: 16px;
+}
+
+button {
+width: 100%;
+padding: 12px;
+background: #0f172a;
+color: white;
+border: none;
+border-radius: 6px;
+font-size: 16px;
+cursor: pointer;
+}
+
+button:hover {
+background: #1e293b;
+}
+
+.error {
+color: red;
+text-align: center;
+margin-top: 10px;
+display: none;
+}
+
+/* PANEL ADMIN */
+.admin {
+display: none;
+padding: 20px;
+max-width: 900px;
+margin: auto;
+}
+
+.admin h2 {
+text-align: center;
+margin-bottom: 20px;
+}
+
+.admin button {
+margin-bottom: 10px;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-<img src="IMG_3936.png">
-<p>Futsal: la pasión que nos une</p>
-</header>
+<header>40x20 FUTSAL</header>
 
-<section id="login">
-<div class="card">
-<input id="user" placeholder="Usuario">
-<input id="pass" type="password" placeholder="Clave">
-<button onclick="login()">Entrar</button>
+<!-- LOGIN -->
+<div class="login-container" id="loginBox">
+<h3>Ingreso administrador</h3>
+
+<input type="text" id="usuario" placeholder="Usuario">
+<input type="password" id="clave" placeholder="Clave">
+
+<button onclick="login()">Ingresar</button>
+
+<div class="error" id="error">Usuario o clave incorrectos</div>
 </div>
-</section>
 
-<section id="admin">
-<div class="card">
-<select id="torneo">
-<option>LPF</option>
-<option>AFOFUSA</option>
-<option>LAAMBA</option>
-</select>
-<button onclick="mostrar('partidos')">Partidos</button>
-<button onclick="mostrar('tabla')">Tabla</button>
-<button onclick="mostrar('goleadores')">Goleadores</button>
+<!-- PANEL ADMIN -->
+<div class="admin" id="adminPanel">
+<h2>Panel Administrador</h2>
+
+<button onclick="alert('Agregar equipo (próximo paso)')">
+➕ Agregar equipo
+</button>
+
+<button onclick="alert('Tabla de posiciones')">
+📊 Tabla de posiciones
+</button>
+
+<button onclick="logout()">
+🚪 Cerrar sesión
+</button>
 </div>
-</section>
 
-<section id="partidos">
-<div class="card">
-<h3>Partidos</h3>
-<div id="listaPartidos"></div>
-<button onclick="volver()">Volver</button>
-</div>
-</section>
+<script>
+function login() {
+const user = document.getElementById("usuario").value;
+const pass = document.getElementById("clave").value;
 
-<section id="tabla">
-<div class="card">
-<h3>Tabla de posiciones</h3>
-<table>
-<thead>
-<tr><th>Equipo</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr>
-</thead>
-<tbody id="tablaBody"></tbody>
-</table>
-<button onclick="volver()">Volver</button>
-</div>
-</section>
-
-<section id="goleadores">
-<div class="card">
-<h3>Goleadores</h3>
-<table>
-<thead><tr><th>Jugador</th><th>Equipo</th><th>Goles</th></tr></thead>
-<tbody id="golesBody"></tbody>
-</table>
-<button onclick="volver()">Volver</button>
-</div>
-</section>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import {
-getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-const firebaseConfig = {
-apiKey: "AIzaSyBiUJW7PVnSbWQs0RpBb3mNdUB-QEjM9o",
-authDomain: "x20-futsal-afb4b.firebaseapp.com",
-projectId: "x20-futsal-afb4b",
-messagingSenderId: "635511926858",
-appId: "1:635511926858:web:aa5cacbf90bee34af976b3"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const sections=document.querySelectorAll("section");
-window.mostrar=id=>{sections.forEach(s=>s.style.display="none");document.getElementById(id).style.display="block"}
-window.volver=()=>mostrar("admin")
-
-window.login=()=>{
-if(user.value==="admin" && pass.value==="4020")mostrar("admin");
-else alert("Error");
+if (user === "admin" && pass === "1234") {
+document.getElementById("loginBox").style.display = "none";
+document.getElementById("adminPanel").style.display = "block";
+} else {
+document.getElementById("error").style.display = "block";
+}
 }
 
-// -------- PARTIDOS --------
-async function cargarPartidos(){
-listaPartidos.innerHTML="";
-const q=query(collection(db,"partidos"),where("torneo","==",torneo.value));
-const snap=await getDocs(q);
-snap.forEach(d=>{
-const p=d.data();
-listaPartidos.innerHTML+=`
-<div class="partido">
-<strong>${p.local} vs ${p.visita}</strong><br>
-<input id="gl${d.id}" placeholder="GL" style="width:50px">
-<input id="gv${d.id}" placeholder="GV" style="width:50px"><br>
-<input id="jug${d.id}" placeholder="Jugador">
-<input id="gol${d.id}" placeholder="Goles">
-<button onclick="guardar('${d.id}','${p.local}','${p.visita}')">Guardar</button>
-</div>`;
-});
+function logout() {
+location.reload();
 }
-
-window.guardar=async(id,local,visita)=>{
-const gl=+document.getElementById("gl"+id).value;
-const gv=+document.getElementById("gv"+id).value;
-await updateDoc(doc(db,"partidos",id),{gl,gv});
-if(document.getElementById("jug"+id).value){
-await addDoc(collection(db,"goleadores"),{
-torneo:torneo.value,
-jugador:document.getElementById("jug"+id).value,
-equipo:gl>gv?local:visita,
-goles:+document.getElementById("gol"+id).value
-});
-}
-await recalcularTabla();
-alert("Partido cargado");
-}
-
-// -------- TABLA --------
-async function recalcularTabla(){
-const eqSnap=await getDocs(query(collection(db,"equipos"),where("torneo","==",torneo.value)));
-eqSnap.forEach(async e=>{
-await updateDoc(doc(db,"equipos",e.id),{PJ:0,GF:0,GC:0,DG:0,PTS:0});
-});
-
-const pSnap=await getDocs(query(collection(db,"partidos"),where("torneo","==",torneo.value)));
-pSnap.forEach(async p=>{
-const d=p.data();
-if(d.gl!=null){
-const eqs=await getDocs(query(collection(db,"equipos"),where("nombre","in",[d.local,d.visita])));
-eqs.forEach(async e=>{
-let data=e.data();
-let pj=data.PJ+1;
-let gf=data.GF+(e.data().nombre==d.local?d.gl:d.gv);
-let gc=data.GC+(e.data().nombre==d.local?d.gv:d.gl);
-let pts=data.PTS;
-if(d.gl>d.gv && e.data().nombre==d.local) pts+=3;
-if(d.gv>d.gl && e.data().nombre==d.visita) pts+=3;
-if(d.gl==d.gv) pts+=1;
-await updateDoc(doc(db,"equipos",e.id),{PJ:pj,GF:gf,GC:gc,DG:gf-gc,PTS:pts});
-});
-}
-});
-cargarTabla();
-}
-
-async function cargarTabla(){
-tablaBody.innerHTML="";
-const q=query(collection(db,"equipos"),where("torneo","==",torneo.value));
-const snap=await getDocs(q);
-snap.forEach(d=>{
-const e=d.data();
-tablaBody.innerHTML+=`
-<tr>
-<td>${e.nombre}</td><td>${e.PJ}</td><td>${e.GF}</td>
-<td>${e.GC}</td><td>${e.DG}</td><td>${e.PTS}</td>
-</tr>`;
-});
-}
-
-async function cargarGoleadores(){
-golesBody.innerHTML="";
-const q=query(collection(db,"goleadores"),where("torneo","==",torneo.value));
-const snap=await getDocs(q);
-snap.forEach(d=>{
-const g=d.data();
-golesBody.innerHTML+=`<tr><td>${g.jugador}</td><td>${g.equipo}</td><td>${g.goles}</td></tr>`;
-});
-}
-
-torneo.onchange=()=>{cargarPartidos();cargarTabla();cargarGoleadores()}
-mostrar("login");
 </script>
 
 </body>
