@@ -8,30 +8,37 @@
 <style>
 *{box-sizing:border-box;font-family:system-ui}
 body{margin:0;background:#f1f3f6}
-header{background:#071b33;padding:24px;text-align:center}
-header img{width:140px}
+header{background:#071b33;padding:26px;text-align:center}
+header img{width:150px}
 header p{color:#cfd8e6;font-style:italic;margin-top:8px}
+
 .container{padding:20px}
 .view{display:none}
+
 .btn{
 background:#fff;padding:16px;border-radius:16px;margin-bottom:12px;
 font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.1);cursor:pointer
 }
 .btn-dark{background:#071b33;color:#fff}
-.btn-small{padding:8px;font-size:13px;margin-top:6px}
+.btn-small{padding:6px 10px;font-size:13px}
+
 .card{
 background:#fff;padding:16px;border-radius:16px;
 box-shadow:0 6px 18px rgba(0,0,0,.1);margin-bottom:14px
 }
+
 input,select,textarea{
 width:100%;padding:12px;border-radius:12px;
 border:1px solid #ccc;margin-bottom:10px
 }
+
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{padding:6px;text-align:center}
 th{background:#e8eef6}
+
 .team{display:flex;align-items:center;gap:6px}
 .team img{width:22px;height:22px;border-radius:50%}
+
 .carousel{display:flex;gap:12px;overflow-x:auto}
 .item{min-width:220px;background:#fff;padding:14px;border-radius:14px}
 </style>
@@ -70,7 +77,7 @@ th{background:#e8eef6}
 <!-- MENU TORNEO -->
 <div id="menuTorneo" class="view">
 <div class="btn btn-dark" onclick="show('torneos')">← Volver</div>
-<div class="btn" onclick="showTabla()">Tabla</div>
+<div class="btn" onclick="showTabla()">Tabla de posiciones</div>
 <div class="btn" onclick="showFixture()">Fixture / Resultados</div>
 <div class="btn" onclick="showGoleadores()">Goleadores</div>
 <div class="btn" onclick="showSanciones()">Sanciones</div>
@@ -97,29 +104,17 @@ th{background:#e8eef6}
 <div id="adminOnly">
 
 <div class="card">
-<h3>Árbitros</h3>
-<input id="arbUser" placeholder="Usuario">
-<input id="arbPass" placeholder="Contraseña">
-<div class="btn" onclick="addArbitro()">Agregar árbitro</div>
-</div>
-
-<div class="card">
-<h3>Equipos</h3>
+<h3>Agregar equipo</h3>
 <input id="teamName" placeholder="Nombre del equipo">
+<select id="teamTorneo">
+<option value="">Torneo</option>
+<option value="LPF">LPF</option>
+<option value="LAAMBA">LAAMBA</option>
+<option value="APOFUSA">A.Po.Fu.Sa</option>
+</select>
 <input type="file" id="teamLogo" accept="image/*">
 <div class="btn" onclick="addTeam()">Agregar equipo</div>
-</div>
-
-<div class="card">
-<h3>Noticias</h3>
-<input id="newsTxt" placeholder="Texto">
-<div class="btn" onclick="addNews()">Agregar</div>
-</div>
-
-<div class="card">
-<h3>Sponsors</h3>
-<input type="file" id="sponsorImg" accept="image/*">
-<div class="btn" onclick="addSponsor()">Agregar</div>
+<div id="listaEquipos"></div>
 </div>
 
 </div>
@@ -140,11 +135,23 @@ th{background:#e8eef6}
 <input id="sanJugador" placeholder="Jugador">
 <input id="sanEquipo" placeholder="Equipo">
 <input id="sanFechas" placeholder="Fechas">
-<div class="btn" onclick="addSan()">Agregar</div>
+<div class="btn" onclick="addSan()">Agregar sanción</div>
 </div>
 
 <div class="card">
-<div class="btn" onclick="exportData()">Exportar</div>
+<h3>Noticias</h3>
+<input id="newsTxt" placeholder="Texto">
+<div class="btn" onclick="addNews()">Agregar noticia</div>
+</div>
+
+<div class="card">
+<h3>Sponsors</h3>
+<input type="file" id="sponsorImg" accept="image/*">
+<div class="btn" onclick="addSponsor()">Agregar sponsor</div>
+</div>
+
+<div class="card">
+<div class="btn" onclick="exportData()">Exportar datos</div>
 <input type="file" onchange="importData(event)">
 </div>
 </div>
@@ -153,6 +160,7 @@ th{background:#e8eef6}
 
 <script>
 let torneoActual='',role='',editingId=null
+
 let data=JSON.parse(localStorage.getItem('data'))||{
 users:[{u:'admin',p:'admin123',r:'admin'}],
 equipos:[],partidos:[],goleadores:[],sanciones:[],news:[],sponsors:[]
@@ -162,44 +170,67 @@ function save(){localStorage.setItem('data',JSON.stringify(data))}
 function show(id){document.querySelectorAll('.view').forEach(v=>v.style.display='none');document.getElementById(id).style.display='block'}
 show('home')
 
-function openTorneo(t){torneoActual=t;show('menuTorneo')}
+function openTorneo(t){torneoActual=t;loadTeams();show('menuTorneo')}
 
+/* LOGIN */
 function login(){
 let f=data.users.find(x=>x.u===user.value&&x.p===pass.value)
-if(!f)return alert('Error')
+if(!f)return alert('Datos incorrectos')
 role=f.r
 adminOnly.style.display=role==='admin'?'block':'none'
-loadTeams()
+renderEquipos()
 show('panel')
 }
 
-function addArbitro(){data.users.push({u:arbUser.value,p:arbPass.value,r:'arbitro'});save();alert('OK')}
+/* EQUIPOS */
 function addTeam(){
+let name=teamName.value.trim()
+let torneo=teamTorneo.value
+let file=teamLogo.files[0]
+if(!name||!torneo||!file)return alert('Completá todo')
+
 let r=new FileReader()
 r.onload=e=>{
-data.equipos.push({name:teamName.value,logo:e.target.result,pj:0,gf:0,gc:0,pts:0})
-save();loadTeams()
+data.equipos.push({id:Date.now(),name,torneo,logo:e.target.result,pj:0,gf:0,gc:0,pts:0})
+save();renderEquipos();loadTeams()
+teamName.value='';teamLogo.value='';teamTorneo.value=''
 }
-r.readAsDataURL(teamLogo.files[0])
+r.readAsDataURL(file)
+}
+
+function renderEquipos(){
+let html=''
+data.equipos.forEach(e=>{
+html+=`
+<div class="card" style="display:flex;justify-content:space-between;align-items:center">
+<div class="team"><img src="${e.logo}">${e.name} (${e.torneo})</div>
+<button class="btn-small" onclick="deleteTeam(${e.id})">Eliminar</button>
+</div>`
+})
+listaEquipos.innerHTML=html
+}
+
+function deleteTeam(id){
+if(!confirm('Eliminar equipo?'))return
+data.equipos=data.equipos.filter(e=>e.id!==id)
+save();renderEquipos();loadTeams()
 }
 
 function loadTeams(){
 local.innerHTML=visitante.innerHTML=''
-data.equipos.forEach(e=>{
+data.equipos.filter(e=>e.torneo===torneoActual).forEach(e=>{
 local.innerHTML+=`<option>${e.name}</option>`
 visitante.innerHTML+=`<option>${e.name}</option>`
 })
 }
 
+/* PARTIDOS */
 function saveMatch(){
 let gl=+gLocal.value,gv=+gVisita.value
 let id=editingId||Date.now()
 data.partidos=data.partidos.filter(p=>p.id!==id)
-data.partidos.push({id,fecha:+fecha.value,local:local.value,visita:visitante.value,gl,gv,goleadores:goleadoresTxt.value})
-recalc()
-editingId=null
-save()
-alert('Guardado')
+data.partidos.push({id,torneo:torneoActual,fecha:+fecha.value,local:local.value,visita:visitante.value,gl,gv,goleadores:goleadoresTxt.value})
+recalc();editingId=null;save();alert('Guardado')
 }
 
 function recalc(){
@@ -208,6 +239,7 @@ data.goleadores=[]
 data.partidos.forEach(p=>{
 let l=data.equipos.find(e=>e.name===p.local)
 let v=data.equipos.find(e=>e.name===p.visita)
+if(!l||!v)return
 l.pj++;v.pj++
 l.gf+=p.gl;l.gc+=p.gv
 v.gf+=p.gv;v.gc+=p.gl
@@ -218,38 +250,24 @@ p.goleadores.split(',').forEach(g=>{
 let m=g.match(/(.+)\((\d+)\)/)
 if(m){
 let ex=data.goleadores.find(x=>x.n===m[1])
-if(ex)ex.g+=+m[2]
-else data.goleadores.push({n:m[1],g:+m[2]})
+ex?ex.g+=+m[2]:data.goleadores.push({n:m[1],g:+m[2]})
 }
 })
 })
 }
 
+/* VISTAS */
 function showFixture(){
 let html=''
-data.partidos.sort((a,b)=>a.fecha-b.fecha).forEach(p=>{
-html+=`<div class="card"><b>Fecha ${p.fecha}</b><br>${p.local} ${p.gl}-${p.gv} ${p.visita}
-<div class="btn btn-small" onclick="edit(${p.id})">Editar</div>
-<div class="btn btn-small" onclick="copyPost(${p.id})">Copiar publicación</div></div>`
+data.partidos.filter(p=>p.torneo===torneoActual).sort((a,b)=>a.fecha-b.fecha).forEach(p=>{
+html+=`<div class="card"><b>Fecha ${p.fecha}</b><br>${p.local} ${p.gl}-${p.gv} ${p.visita}</div>`
 })
 content.innerHTML=html;show('contenido')
 }
 
-function edit(id){
-let p=data.partidos.find(x=>x.id===id)
-editingId=id
-fecha.value=p.fecha
-local.value=p.local
-visitante.value=p.visita
-gLocal.value=p.gl
-gVisita.value=p.gv
-goleadoresTxt.value=p.goleadores
-show('panel')
-}
-
 function showTabla(){
 let html='<div class="card"><table><tr><th>Equipo</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr>'
-data.equipos.forEach(e=>{
+data.equipos.filter(e=>e.torneo===torneoActual).forEach(e=>{
 html+=`<tr><td class="team"><img src="${e.logo}">${e.name}</td><td>${e.pj}</td><td>${e.gf}</td><td>${e.gc}</td><td>${e.gf-e.gc}</td><td><b>${e.pts}</b></td></tr>`
 })
 html+='</table></div>';content.innerHTML=html;show('contenido')
@@ -280,12 +298,6 @@ news.innerHTML=data.news.map(n=>`<div class="item">${n}</div>`).join('')
 sponsors.innerHTML=data.sponsors.map(s=>`<div class="item"><img src="${s}" width="100%"></div>`).join('')
 }
 renderHome()
-
-function copyPost(id){
-let p=data.partidos.find(x=>x.id===id)
-navigator.clipboard.writeText(`Fecha ${p.fecha}\n${p.local} ${p.gl}-${p.gv} ${p.visita}`)
-alert('Copiado')
-}
 
 function exportData(){
 let a=document.createElement('a')
