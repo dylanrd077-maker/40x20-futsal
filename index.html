@@ -5,28 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>40x20 Futsal</title>
 
-<!-- Firebase -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <style>
-*{box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
-body{margin:0;background:#f1f3f6}
-header{background:#071b33;padding:25px;text-align:center}
+*{box-sizing:border-box;font-family:system-ui}
+body{margin:0;background:#f2f4f8;color:#111}
+header{background:#071b33;padding:22px;text-align:center}
 header img{width:130px}
 header p{color:#dbe4f0;margin:8px 0 0;font-style:italic}
+
 .container{padding:20px}
 .view{display:none}
-.btn{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;font-weight:600;box-shadow:0 6px 16px rgba(0,0,0,.1);cursor:pointer}
+
+.btn{
+background:#fff;
+border-radius:14px;
+padding:16px;
+margin-bottom:12px;
+font-weight:600;
+box-shadow:0 6px 16px rgba(0,0,0,.1);
+cursor:pointer
+}
 .btn-dark{background:#071b33;color:#fff}
-h3{margin:18px 0 10px}
-.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px}
-input,select{width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ccc}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px;text-align:center;border-bottom:1px solid #eee}
-.carousel{display:flex;gap:12px;overflow-x:auto}
-.item{min-width:220px;background:#fff;border-radius:16px;padding:14px}
-a.link{display:block;background:#fff;padding:14px;border-radius:16px;margin-bottom:10px;text-align:center;text-decoration:none;color:#000;font-weight:600}
+
+h3{margin:20px 0 12px}
+
+.carousel{
+display:flex;
+gap:14px;
+overflow-x:auto;
+}
+.card{
+min-width:220px;
+background:#fff;
+padding:14px;
+border-radius:14px;
+box-shadow:0 6px 14px rgba(0,0,0,.1);
+}
+
+.input{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+.table{
+width:100%;
+border-collapse:collapse;
+}
+.table th,.table td{
+padding:8px;
+border-bottom:1px solid #ddd;
+text-align:center;
+}
 </style>
 </head>
 
@@ -45,19 +80,23 @@ a.link{display:block;background:#fff;padding:14px;border-radius:16px;margin-bott
 
 <h3>NOTICIAS</h3>
 <div class="carousel">
-<div class="item">Noticia 1</div>
-<div class="item">Noticia 2</div>
-<div class="item">Noticia 3</div>
+<div class="card">Noticia 1</div>
+<div class="card">Noticia 2</div>
+<div class="card">Noticia 3</div>
 </div>
 
 <h3>SPONSORS</h3>
 <div class="carousel">
-<div class="item">Sponsor</div>
-<div class="item">Sponsor</div>
+<div class="card">Sponsor</div>
+<div class="card">Sponsor</div>
 </div>
 
-<a class="link" href="https://www.instagram.com/_40x20futsal" target="_blank">Instagram</a>
-<div class="btn" onclick="go('login')">Panel Admin / Árbitro</div>
+<div class="btn" onclick="openAdmin()">ADMIN</div>
+<div class="btn" onclick="openArbitros()">ÁRBITROS</div>
+
+<a class="btn" href="https://www.instagram.com/_40x20futsal" target="_blank">
+Instagram
+</a>
 </div>
 
 <!-- TORNEOS -->
@@ -68,105 +107,114 @@ a.link{display:block;background:#fff;padding:14px;border-radius:16px;margin-bott
 <div class="btn" onclick="openTorneo('APOFUSA')">A.Po.Fu.Sa</div>
 </div>
 
-<!-- MENU TORNEO -->
-<div id="menuTorneo" class="view">
+<!-- TABLA -->
+<div id="tabla" class="view">
 <div class="btn btn-dark" onclick="back()">← Volver</div>
-<div class="btn" onclick="openSection('tabla')">Tabla de posiciones</div>
-<div class="btn" onclick="openSection('fixture')">Fixture</div>
-<div class="btn" onclick="openSection('goleadores')">Goleadores</div>
-</div>
-
-<!-- CONTENIDO -->
-<div id="contenido" class="view">
-<div class="btn btn-dark" onclick="back()">← Volver</div>
-<div id="content"></div>
-</div>
-
-<!-- LOGIN -->
-<div id="login" class="view">
-<div class="btn btn-dark" onclick="back()">← Volver</div>
-<div class="card">
-<input id="user" placeholder="Usuario">
-<input id="pass" type="password" placeholder="Clave">
-<div class="btn btn-dark" onclick="login()">Ingresar</div>
-</div>
+<h3 id="tituloTabla"></h3>
+<table class="table">
+<thead>
+<tr>
+<th>Equipo</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th>
+</tr>
+</thead>
+<tbody id="tablaBody"></tbody>
+</table>
 </div>
 
 <!-- ADMIN -->
-<div id="admin" class="view">
+<div id="adminLogin" class="view">
+<input id="adminUser" class="input" placeholder="Usuario">
+<input id="adminPass" type="password" class="input" placeholder="Clave">
+<button class="btn btn-dark" onclick="loginAdmin()">Ingresar</button>
+</div>
+
+<div id="adminPanel" class="view">
 <div class="btn btn-dark" onclick="back()">← Volver</div>
-<div class="card">
 <h3>Agregar equipo</h3>
-<input id="teamName" placeholder="Nombre del equipo">
-<select id="teamTorneo">
+<input id="eqNombre" class="input" placeholder="Nombre del equipo">
+<select id="eqTorneo" class="input">
 <option>LPF</option>
 <option>LaAMBA</option>
 <option>APOFUSA</option>
 </select>
-<div class="btn btn-dark" onclick="addTeam()">Guardar equipo</div>
+<button class="btn" onclick="addEquipo()">Guardar</button>
 </div>
+
+<!-- ARBITROS -->
+<div id="arbLogin" class="view">
+<input id="arbUser" class="input" placeholder="Usuario">
+<input id="arbPass" type="password" class="input" placeholder="Clave">
+<button class="btn btn-dark" onclick="loginArbitro()">Ingresar</button>
 </div>
 
 </div>
 
 <script>
-const firebaseConfig = {
+/* FIREBASE */
+firebase.initializeApp({
 apiKey: "AIzaSyBiUJW7PVnSbWQVs0RpBb3mNdUB-QEjM9o",
 authDomain: "x20-futsal-afb4b.firebaseapp.com",
-projectId: "x20-futsal-afb4b",
-storageBucket: "x20-futsal-afb4b.firebasestorage.app",
-messagingSenderId: "635511926858",
-appId: "1:635511926858:web:aa5cacbf90bee34af976b3"
-};
-firebase.initializeApp(firebaseConfig);
+projectId: "x20-futsal-afb4b"
+});
 const db = firebase.firestore();
 
-let history=['home'], torneoActual='';
-
+/* NAVEGACION */
+let stack=['home'];
 function go(id){
 document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none');
 document.getElementById(id).style.display='block';
-history.push(id);
+stack.push(id);
 }
 function back(){
-history.pop();
-document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none');
-document.getElementById(history[history.length-1]).style.display='block';
+stack.pop();
+go(stack.pop());
 }
-function openTorneo(t){torneoActual=t;go('menuTorneo');}
 
-function openSection(sec){
-let html='';
-if(sec==='tabla'){
-html='<h3>Tabla de posiciones</h3><table><tr><th>Equipo</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr>';
-db.collection('equipos').where('torneo','==',torneoActual).get().then(s=>{
+/* TORNEOS */
+function openTorneo(t){
+go('tabla');
+document.getElementById('tituloTabla').innerText=t;
+const body=document.getElementById('tablaBody');
+body.innerHTML='';
+db.collection('equipos').where('torneo','==',t).get().then(s=>{
 s.forEach(d=>{
-let e=d.data();
-html+=`<tr><td>${e.nombre}</td><td>${e.PJ||0}</td><td>${e.GF||0}</td><td>${e.GC||0}</td><td>${(e.GF||0)-(e.GC||0)}</td><td>${e.PTS||0}</td></tr>`;
+const e=d.data();
+body.innerHTML+=`
+<tr>
+<td>${e.nombre}</td>
+<td>${e.PJ||0}</td>
+<td>${e.GF||0}</td>
+<td>${e.GC||0}</td>
+<td>${e.DG||0}</td>
+<td>${e.PTS||0}</td>
+</tr>`;
 });
-html+='</table>';
-document.getElementById('content').innerHTML=html;
 });
-}
-document.getElementById('content').innerHTML=html;
-go('contenido');
 }
 
-function login(){
-let u=user.value,p=pass.value;
-if(u==='admin'&&p==='admin123')go('admin');
-else if(u==='arbitro'&&p==='1234')alert('Panel árbitro en próximo paso');
-else alert('Datos incorrectos');
+/* ADMIN */
+function openAdmin(){go('adminLogin')}
+function loginAdmin(){
+if(adminUser.value==='admin'&&adminPass.value==='admin123'){
+go('adminPanel')
+}else alert('Error')
 }
-
-function addTeam(){
+function addEquipo(){
 db.collection('equipos').add({
-nombre:teamName.value,
-torneo:teamTorneo.value,
-PJ:0,GF:0,GC:0,PTS:0
+nombre:eqNombre.value,
+torneo:eqTorneo.value,
+PJ:0,GF:0,GC:0,DG:0,PTS:0
 });
-alert('Equipo cargado');
-teamName.value='';
+alert('Equipo agregado');
+}
+
+/* ARBITROS */
+function openArbitros(){go('arbLogin')}
+function loginArbitro(){
+if(arbUser.value==='arbitro'&&arbPass.value==='1234'){
+alert('Árbitro conectado (demo)');
+back();
+}else alert('Error');
 }
 </script>
 
