@@ -2,29 +2,31 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>40x20 Futsal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>40x20 Futsal</title>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <style>
-*{box-sizing:border-box;font-family:system-ui}
+*{box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
 body{margin:0;background:#f1f3f6}
 header{background:#071b33;padding:25px;text-align:center}
-header img{width:140px}
-header p{color:#dbe4f0;margin-top:8px;font-style:italic}
-.container{padding:18px}
-.btn{background:#fff;padding:18px;border-radius:16px;margin-bottom:14px;
-font-weight:600;box-shadow:0 8px 20px rgba(0,0,0,.1);cursor:pointer}
-.btn-dark{background:#071b33;color:#fff}
+header img{width:130px}
+header p{color:#dbe4f0;margin:8px 0 0;font-style:italic}
+.container{padding:20px}
 .view{display:none}
-.carousel{display:flex;gap:14px;overflow-x:auto}
-.item{min-width:220px;background:#fff;border-radius:16px;padding:14px}
+.btn{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;font-weight:600;box-shadow:0 6px 16px rgba(0,0,0,.1);cursor:pointer}
+.btn-dark{background:#071b33;color:#fff}
+h3{margin:18px 0 10px}
+.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px}
+input,select{width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ccc}
 table{width:100%;border-collapse:collapse}
-th,td{padding:8px;text-align:center;border-bottom:1px solid #ddd}
+th,td{padding:8px;text-align:center;border-bottom:1px solid #eee}
+.carousel{display:flex;gap:12px;overflow-x:auto}
+.item{min-width:220px;background:#fff;border-radius:16px;padding:14px}
+a.link{display:block;background:#fff;padding:14px;border-radius:16px;margin-bottom:10px;text-align:center;text-decoration:none;color:#000;font-weight:600}
 </style>
 </head>
 
@@ -42,16 +44,20 @@ th,td{padding:8px;text-align:center;border-bottom:1px solid #ddd}
 <div class="btn btn-dark" onclick="go('torneos')">TORNEOS</div>
 
 <h3>NOTICIAS</h3>
-<div class="carousel" id="news"></div>
+<div class="carousel">
+<div class="item">Noticia 1</div>
+<div class="item">Noticia 2</div>
+<div class="item">Noticia 3</div>
+</div>
 
 <h3>SPONSORS</h3>
-<div class="carousel" id="sponsors"></div>
+<div class="carousel">
+<div class="item">Sponsor</div>
+<div class="item">Sponsor</div>
+</div>
 
-<div class="btn" onclick="go('login')">PANEL ADMIN / ARBITROS</div>
-
-<a class="btn" href="https://www.instagram.com/_40x20futsal" target="_blank">
-Instagram
-</a>
+<a class="link" href="https://www.instagram.com/_40x20futsal" target="_blank">Instagram</a>
+<div class="btn" onclick="go('login')">Panel Admin / Árbitro</div>
 </div>
 
 <!-- TORNEOS -->
@@ -59,103 +65,110 @@ Instagram
 <div class="btn btn-dark" onclick="back()">← Volver</div>
 <div class="btn" onclick="openTorneo('LPF')">LPF</div>
 <div class="btn" onclick="openTorneo('LaAMBA')">LaAMBA</div>
-<div class="btn" onclick="openTorneo('APOFUSA')">APoFuSa</div>
+<div class="btn" onclick="openTorneo('APOFUSA')">A.Po.Fu.Sa</div>
 </div>
 
-<!-- TORNEO -->
-<div id="torneo" class="view">
+<!-- MENU TORNEO -->
+<div id="menuTorneo" class="view">
 <div class="btn btn-dark" onclick="back()">← Volver</div>
-<h3 id="torneoTitulo"></h3>
+<div class="btn" onclick="openSection('tabla')">Tabla de posiciones</div>
+<div class="btn" onclick="openSection('fixture')">Fixture</div>
+<div class="btn" onclick="openSection('goleadores')">Goleadores</div>
+</div>
 
-<div class="btn" onclick="ver('tabla')">Tabla de posiciones</div>
-<div class="btn" onclick="ver('goleadores')">Goleadores</div>
-<div class="btn" onclick="ver('fixture')">Fixture</div>
-
-<div id="contenido"></div>
+<!-- CONTENIDO -->
+<div id="contenido" class="view">
+<div class="btn btn-dark" onclick="back()">← Volver</div>
+<div id="content"></div>
 </div>
 
 <!-- LOGIN -->
 <div id="login" class="view">
 <div class="btn btn-dark" onclick="back()">← Volver</div>
-<input id="email" placeholder="Email" class="btn">
-<input id="pass" type="password" placeholder="Clave" class="btn">
+<div class="card">
+<input id="user" placeholder="Usuario">
+<input id="pass" type="password" placeholder="Clave">
 <div class="btn btn-dark" onclick="login()">Ingresar</div>
+</div>
 </div>
 
 <!-- ADMIN -->
 <div id="admin" class="view">
-<h3>Panel Admin</h3>
-<div class="btn" onclick="addEquipo()">Agregar equipo</div>
-<div class="btn" onclick="logout()">Salir</div>
+<div class="btn btn-dark" onclick="back()">← Volver</div>
+<div class="card">
+<h3>Agregar equipo</h3>
+<input id="teamName" placeholder="Nombre del equipo">
+<select id="teamTorneo">
+<option>LPF</option>
+<option>LaAMBA</option>
+<option>APOFUSA</option>
+</select>
+<div class="btn btn-dark" onclick="addTeam()">Guardar equipo</div>
+</div>
 </div>
 
 </div>
 
 <script>
-/* FIREBASE */
-firebase.initializeApp({
+const firebaseConfig = {
 apiKey: "AIzaSyBiUJW7PVnSbWQVs0RpBb3mNdUB-QEjM9o",
 authDomain: "x20-futsal-afb4b.firebaseapp.com",
-projectId: "x20-futsal-afb4b"
-});
-const auth=firebase.auth();
-const db=firebase.firestore();
+projectId: "x20-futsal-afb4b",
+storageBucket: "x20-futsal-afb4b.firebasestorage.app",
+messagingSenderId: "635511926858",
+appId: "1:635511926858:web:aa5cacbf90bee34af976b3"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-/* NAVEGACION */
-let stack=['home'];
+let history=['home'], torneoActual='';
+
 function go(id){
 document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none');
 document.getElementById(id).style.display='block';
-stack.push(id);
+history.push(id);
 }
 function back(){
-stack.pop();
-go(stack[stack.length-1]);
+history.pop();
+document.querySelectorAll('.view,#home').forEach(v=>v.style.display='none');
+document.getElementById(history[history.length-1]).style.display='block';
+}
+function openTorneo(t){torneoActual=t;go('menuTorneo');}
+
+function openSection(sec){
+let html='';
+if(sec==='tabla'){
+html='<h3>Tabla de posiciones</h3><table><tr><th>Equipo</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr>';
+db.collection('equipos').where('torneo','==',torneoActual).get().then(s=>{
+s.forEach(d=>{
+let e=d.data();
+html+=`<tr><td>${e.nombre}</td><td>${e.PJ||0}</td><td>${e.GF||0}</td><td>${e.GC||0}</td><td>${(e.GF||0)-(e.GC||0)}</td><td>${e.PTS||0}</td></tr>`;
+});
+html+='</table>';
+document.getElementById('content').innerHTML=html;
+});
+}
+document.getElementById('content').innerHTML=html;
+go('contenido');
 }
 
-/* TORNEOS */
-let torneoActual='';
-function openTorneo(t){
-torneoActual=t;
-document.getElementById('torneoTitulo').innerText=t;
-go('torneo');
-}
-
-/* LOGIN */
 function login(){
-auth.signInWithEmailAndPassword(
-email.value,pass.value
-).then(()=>go('admin'))
-.catch(e=>alert(e.message));
-}
-function logout(){auth.signOut();go('home')}
-
-/* ADMIN */
-function addEquipo(){
-const nombre=prompt("Nombre del equipo");
-const torneo=prompt("LPF / LaAMBA / APOFUSA");
-db.collection("equipos").add({nombre,torneo});
-alert("Equipo cargado");
+let u=user.value,p=pass.value;
+if(u==='admin'&&p==='admin123')go('admin');
+else if(u==='arbitro'&&p==='1234')alert('Panel árbitro en próximo paso');
+else alert('Datos incorrectos');
 }
 
-/* VISTAS */
-function ver(tipo){
-const c=document.getElementById('contenido');
-if(tipo==='tabla'){
-c.innerHTML='<h3>Tabla</h3><p>Automática con Firebase</p>';
+function addTeam(){
+db.collection('equipos').add({
+nombre:teamName.value,
+torneo:teamTorneo.value,
+PJ:0,GF:0,GC:0,PTS:0
+});
+alert('Equipo cargado');
+teamName.value='';
 }
-if(tipo==='goleadores'){
-c.innerHTML='<h3>Goleadores</h3>';
-}
-if(tipo==='fixture'){
-c.innerHTML='<h3>Fixture</h3>';
-}
-}
-
-/* CARRUSELES DEMO */
-news.innerHTML='<div class="item">Noticia 1</div><div class="item">Noticia 2</div>';
-sponsors.innerHTML='<div class="item">Sponsor</div>';
-
 </script>
+
 </body>
 </html>
