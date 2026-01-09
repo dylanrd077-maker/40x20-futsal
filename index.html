@@ -6,13 +6,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{font-family:Arial;margin:0;background:#f2f2f2}
-header{background:#071b33;color:#fff;padding:15px;text-align:center}
-button{padding:10px;margin:5px;width:100%}
-section{display:none;padding:15px}
-table{width:100%;border-collapse:collapse;background:#fff}
-th,td{border:1px solid #ccc;padding:6px;text-align:center}
-.admin{background:#fff;padding:10px;margin-top:10px}
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+background: #f2f2f2;
+}
+header {
+background: #111;
+color: #fff;
+padding: 15px;
+text-align: center;
+}
+main {
+padding: 15px;
+}
+button {
+padding: 10px;
+margin: 5px 0;
+width: 100%;
+font-size: 16px;
+cursor: pointer;
+}
+.box {
+background: #fff;
+padding: 15px;
+border-radius: 6px;
+max-width: 400px;
+margin: auto;
+}
 </style>
 </head>
 
@@ -22,59 +43,21 @@ th,td{border:1px solid #ccc;padding:6px;text-align:center}
 <h2>40x20 FUTSAL</h2>
 </header>
 
-<section id="home">
-<button onclick="ver('torneos')">TORNEOS</button>
-<button onclick="ver('admin')">PANEL ADMIN</button>
-</section>
-
-<section id="torneos">
-<button onclick="abrirTorneo('LPF')">LPF</button>
-<button onclick="abrirTorneo('LaAMBA')">LaAMBA</button>
-<button onclick="abrirTorneo('APoFuSa')">APoFuSa</button>
-<button onclick="volver()">← Volver</button>
-</section>
-
-<section id="torneo">
-<h3 id="nombreTorneo"></h3>
-<button onclick="mostrar('tabla')">Tabla</button>
-<button onclick="mostrar('fixture')">Fixture</button>
-<button onclick="mostrar('goleadores')">Goleadores</button>
-<button onclick="volver()">← Volver</button>
-
-<div id="contenido"></div>
-</section>
-
-<section id="admin">
-<div class="admin">
-<h3>Panel Admin</h3>
-<input id="equipo" placeholder="Nombre del equipo">
-<select id="torneoSel">
-<option>LPF</option>
-<option>LaAMBA</option>
-<option>APoFuSa</option>
-</select>
-<button onclick="agregarEquipo()">Agregar equipo</button>
+<main>
+<div class="box">
+<button onclick="agregarEquipoPrueba()">Agregar equipo de prueba</button>
+<button onclick="verEquipos()">Ver equipos (consola)</button>
+<p>👉 Abrí la consola (F12) para ver los datos</p>
 </div>
+</main>
 
-<div class="admin">
-<h4>Cargar resultado</h4>
-<input id="local" placeholder="Local">
-<input id="gLocal" type="number" placeholder="Goles local">
-<input id="visitante" placeholder="Visitante">
-<input id="gVisitante" type="number" placeholder="Goles visitante">
-<button onclick="cargarResultado()">Guardar resultado</button>
-</div>
-
-<button onclick="volver()">← Volver</button>
-</section>
-
-<!-- FIREBASE -->
+<!-- ================= FIREBASE ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyBiUJW7PVnSbWQVsoRpBb3mNdUB-QEjM9o",
+apiKey: "AIzaSyBiUJW7PVnSbWQVs0RpBb3mNdUB-QEjM9o",
 authDomain: "x20-futsal-afb4b.firebaseapp.com",
 projectId: "x20-futsal-afb4b",
 storageBucket: "x20-futsal-afb4b.firebasestorage.app",
@@ -85,53 +68,22 @@ appId: "1:635511926858:web:aa5cacbf90bee34af976b3"
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let torneoActual = "";
-
-window.ver = (id)=>{
-document.querySelectorAll("section").forEach(s=>s.style.display="none");
-document.getElementById(id).style.display="block";
-}
-
-window.volver = ()=>ver("home");
-
-window.abrirTorneo = async (t)=>{
-torneoActual=t;
-document.getElementById("nombreTorneo").innerText=t;
-ver("torneo");
-mostrar("tabla");
-}
-
-window.mostrar = async (tipo)=>{
-let html="";
-if(tipo==="tabla"){
-const q = await getDocs(collection(db,"equipos"));
-html="<table><tr><th>Equipo</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr>";
-q.forEach(d=>{
-const e=d.data();
-if(e.torneo===torneoActual){
-html+=`<tr><td>${e.nombre}</td><td>${e.pj||0}</td><td>${e.gf||0}</td><td>${e.gc||0}</td><td>${(e.gf||0)-(e.gc||0)}</td><td>${e.pts||0}</td></tr>`;
-}
+// ===== FUNCIONES DE PRUEBA =====
+window.agregarEquipoPrueba = async function () {
+await addDoc(collection(db, "equipos"), {
+nombre: "Equipo Test",
+torneo: "Prueba",
+creado: new Date()
 });
-html+="</table>";
-}
-document.getElementById("contenido").innerHTML=html;
-}
+alert("Equipo agregado en Firebase");
+};
 
-window.agregarEquipo = async ()=>{
-const nombre=document.getElementById("equipo").value;
-const torneo=document.getElementById("torneoSel").value;
-if(!nombre)return;
-await addDoc(collection(db,"equipos"),{
-nombre,torneo,pj:0,gf:0,gc:0,pts:0
+window.verEquipos = async function () {
+const querySnapshot = await getDocs(collection(db, "equipos"));
+querySnapshot.forEach((doc) => {
+console.log(doc.id, doc.data());
 });
-alert("Equipo agregado");
-}
-
-window.cargarResultado = async ()=>{
-alert("Resultados automáticos se activan en la próxima etapa");
-}
-
-ver("home");
+};
 </script>
 
 </body>
